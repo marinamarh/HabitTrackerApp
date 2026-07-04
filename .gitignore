@@ -1,0 +1,19 @@
+# Xcode
+build/
+DerivedData/
+*.pbxuser
+!default.pbxuser
+xcuserdata/
+*.xcuserstate
+
+# Swift Package Manager
+.build/
+Package.resolved
+
+# macOS
+.DS_Store
+
+# SwiftData local database
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
