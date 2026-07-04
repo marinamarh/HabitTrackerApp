@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+enum HabitFrequency: Codable, Hashable {
+    case daily
+    case timePerWeek(Int)
+}
