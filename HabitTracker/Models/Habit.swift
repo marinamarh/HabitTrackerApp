@@ -33,3 +33,25 @@ class Habit {
         self.reminderTime = reminderTime
     }
 }
+
+extension Habit {
+    var isCompletedToday: Bool {
+        let calendar = Calendar.current
+        return entries.contains { calendar.isDateInToday($0.date) }
+    }
+    
+    var currentStreak: Int {
+        let calendar = Calendar.current
+        let completedDays = Set(entries.map { calendar.startOfDay(for: $0.date) })
+        
+        var streak = 0
+        var dayToCheck = calendar.startOfDay(for: Date())
+        
+        while completedDays.contains(dayToCheck) {
+            streak += 1
+            guard let previousDay = calendar.date(byAdding: .day, value: -1, to: dayToCheck) else { break }
+            dayToCheck = previousDay
+        }
+        return streak
+    }
+}
