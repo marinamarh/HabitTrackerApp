@@ -10,10 +10,21 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query private var habits: [Habit]
 
     var body: some View {
-        
+        TabView {
+            Tab("Habits", systemImage: "checklist") {
+                HabitScreen()
+            }
+            
+            Tab("Charts", systemImage: "chart.bar.xaxis") {
+                //
+            }
+            
+            Tab("Settings", systemImage: "gearshape.fill") {
+                //
+            }
+        }
     }
 }
 
