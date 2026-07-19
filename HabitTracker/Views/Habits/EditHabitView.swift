@@ -1,28 +1,40 @@
 //
-//  AddHabitView.swift
+//  EditHabitView.swift
 //  HabitTracker
 //
-//  Created by Marina Marhitych on 08.07.2026.
+//  Created by Marina Marhitych on 19.07.2026.
 //
 
 import SwiftUI
 import SwiftData
 
-struct AddHabitView: View {
+struct EditHabitView: View {
     
-    @Environment(\.modelContext) private var modelContext
+    let habit: Habit
+    
     @Environment(\.dismiss) private var dismiss
     
-    @State private var title = ""
+    @State private var title: String
     @State private var symbol: HabitSymbol
     @State private var color: HabitColor
-    @State private var isEveryday = true
-    @State private var selectedDays: Set<Weekday> = []
+    @State private var isEveryday: Bool
+    @State private var selectedDays: Set<Weekday>
     
-    init() {
-        let randomDefaults = Habit.createRandom()
-        _symbol = State(initialValue: randomDefaults.symbol)
-        _color = State(initialValue: randomDefaults.color)
+    init(habit: Habit) {
+        self.habit = habit
+        
+        _title = State(initialValue: habit.title)
+        _symbol = State(initialValue: habit.symbol)
+        _color = State(initialValue: habit.color)
+        
+        switch habit.frequency {
+        case .daily:
+            _isEveryday = State(initialValue: true)
+            _selectedDays = State(initialValue: [])
+        case .specificDays(let days):
+            _isEveryday = State(initialValue: false)
+            _selectedDays = State(initialValue: Set(days))
+        }
     }
     
     var body: some View {
@@ -100,7 +112,7 @@ struct AddHabitView: View {
                     .padding(.vertical, 8)
                 }
             }
-            .navigationTitle("New Habit")
+            .navigationTitle("Edit Habit")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -115,14 +127,15 @@ struct AddHabitView: View {
     }
     
     private func saveHabit() {
-        let frequency: HabitFrequency = isEveryday ? .daily : .specificDays(Array(selectedDays))
-        let habit = Habit(title: title, symbol: symbol, color: color, frequency: frequency)
-        modelContext.insert(habit)
+        habit.title = title
+        habit.symbol = symbol
+        habit.color = color
+        habit.frequency = isEveryday ? .daily : .specificDays(Array(selectedDays))
         dismiss()
     }
 }
 
 #Preview {
-    AddHabitView()
+    EditHabitView(habit: Habit(title: "Workout", symbol: .dumbbell, color: .green))
         .modelContainer(SampleData.previewContainer)
 }

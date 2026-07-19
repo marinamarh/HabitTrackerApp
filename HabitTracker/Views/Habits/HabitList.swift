@@ -12,6 +12,8 @@ struct HabitList: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var habits: [Habit]
     
+    @State private var habitToEdit: Habit?
+    
     let selectedDate: Date
     
     private var scheduledHabits: [Habit] {
@@ -42,11 +44,22 @@ struct HabitList: View {
                                     Label("Delete", systemImage: "trash")
                                 }
                             }
+                            .swipeActions(edge: .leading) {
+                                Button() {
+                                    habitToEdit = habit
+                                } label: {
+                                    Label("Edit", systemImage: "pencil")
+                                }
+                                .tint(.orange)
+                            }
                     }
                 }
                 .listStyle(.plain)
                 .scrollContentBackground(.hidden)
             }
+        }
+        .sheet(item: $habitToEdit) { habit in
+            EditHabitView(habit: habit)
         }
     }
 }
