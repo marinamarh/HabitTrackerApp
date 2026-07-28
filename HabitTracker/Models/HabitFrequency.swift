@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum HabitFrequency: Codable, Hashable {
+enum HabitFrequency: Codable, Hashable, Equatable {
     case daily
     case specificDays([Weekday])
     

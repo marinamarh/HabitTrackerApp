@@ -11,6 +11,7 @@ import SwiftData
 struct HabitRow: View {
     let habit: Habit
     let selectedDate: Date
+    let onToggle: () -> Void
     
     private var isToday: Bool {
         Calendar.current.isDateInToday(selectedDate)
@@ -32,7 +33,7 @@ struct HabitRow: View {
             
             Button {
                 withAnimation(.snappy) {
-                    habit.toggleCompletion()
+                    onToggle()
                 }
             } label: {
                 Image(systemName: habit.isCompleted(on: selectedDate) ? "checkmark.circle.fill" : "circle")
@@ -45,4 +46,13 @@ struct HabitRow: View {
         .padding(.vertical, 4)
         .opacity(isToday ? 1 : 0.5)
     }
+}
+
+#Preview {
+    HabitRow(
+        habit: Habit(title: "Drink Water", symbol: .drop, color: .blue),
+        selectedDate: .now,
+        onToggle: {}
+    )
+    .padding()
 }

@@ -19,8 +19,11 @@ final class Habit {
 
     private var frequencyIsDaily: Bool
     private var specificWeekdaysRaw: [String]
-
+    
     var lastCompletedDate: Date?
+    
+    @Relationship(deleteRule: .cascade, inverse: \HabitEntry.habit)
+    var entries: [HabitEntry] = []
 
     var frequency: HabitFrequency {
         get {
@@ -60,10 +63,6 @@ extension Habit {
     var isCompletedToday: Bool {
         guard let lastCompletedDate else { return false }
         return Calendar.current.isDateInToday(lastCompletedDate)
-    }
-
-    func toggleCompletion() {
-        lastCompletedDate = isCompletedToday ? nil : .now
     }
 
     func isScheduled(on date: Date) -> Bool {

@@ -35,23 +35,25 @@ struct HabitList: View {
             } else {
                 List {
                     ForEach(scheduledHabits) { habit in
-                        HabitRow(habit: habit, selectedDate: selectedDate)
-                            .listRowBackground(Color.clear)
-                            .swipeActions(edge: .trailing) {
-                                Button(role: .destructive) {
-                                    modelContext.delete(habit)
-                                } label: {
-                                    Label("Delete", systemImage: "trash")
-                                }
+                        HabitRow(habit: habit, selectedDate: selectedDate) {
+                            toggleCompletion(for: habit)
+                        }
+                        .listRowBackground(Color.clear)
+                        .swipeActions(edge: .trailing) {
+                            Button(role: .destructive) {
+                                modelContext.delete(habit)
+                            } label: {
+                                Label("Delete", systemImage: "trash")
                             }
-                            .swipeActions(edge: .leading) {
-                                Button() {
-                                    habitToEdit = habit
-                                } label: {
-                                    Label("Edit", systemImage: "pencil")
-                                }
-                                .tint(.orange)
+                        }
+                        .swipeActions(edge: .leading) {
+                            Button {
+                                habitToEdit = habit
+                            } label: {
+                                Label("Edit", systemImage: "pencil")
                             }
+                            .tint(.orange)
+                        }
                     }
                 }
                 .listStyle(.plain)
@@ -60,6 +62,28 @@ struct HabitList: View {
         }
         .sheet(item: $habitToEdit) { habit in
             EditHabitView(habit: habit)
+        }
+    }
+    
+    private func toggleCompletion(for habit: Habit) {
+        if habit.isCompletedToday {
+            uncomplete(habit)
+        } else {
+            complete(habit)
+        }
+    }
+    
+    private func complete(_ habit: Habit) {
+        habit.lastCompletedDate = .now
+        let entry = HabitEntry(date: .now, habit: habit)
+        modelContext.insert(entry)
+    }
+    
+    private func uncomplete(_ habit: Habit) {
+        habit.lastCompletedDate = nil
+        let today = Calendar.current.startOfDay(for: .now)
+        if let todayEntry = habit.entries.first(where: { $0.date == today }) {
+            modelContext.delete(todayEntry)
         }
     }
 }

@@ -17,12 +17,12 @@ struct ContentView: View {
                 HabitScreen()
             }
             
-            Tab("Charts", systemImage: "chart.bar.xaxis") {
-                //
+            Tab("Analytics", systemImage: "chart.bar.xaxis") {
+                AnalyticsScreen()
             }
             
             Tab("Settings", systemImage: "gearshape.fill") {
-                //
+                Text("Settings Screen")
             }
         }
     }
@@ -30,5 +30,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .modelContainer(for: Habit.self, inMemory: true)
+        .modelContainer(for: [Habit.self, HabitEntry.self], inMemory: true)
 }
