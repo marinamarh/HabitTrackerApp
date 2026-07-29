@@ -21,11 +21,15 @@ struct HabitList: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Text(selectedDate.formatted(.dateTime.weekday(.wide).month(.wide).day().year()))
-                .font(.headline)
-                .fontWeight(.semibold)
-                .foregroundStyle(.primary)
+        VStack(alignment: .leading, spacing: 20) {
+            
+            if !scheduledHabits.isEmpty {
+                let completedCount = scheduledHabits.filter { $0.isCompleted(on: selectedDate) }.count
+                let totalCount = scheduledHabits.count
+                
+                DailyProgressBar(completedCount: completedCount, totalCount: totalCount)
+                    .padding(.horizontal, 24)
+            }
             
             if scheduledHabits.isEmpty {
                 ContentUnavailableView(
@@ -39,6 +43,8 @@ struct HabitList: View {
                             toggleCompletion(for: habit)
                         }
                         .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+                        .listRowInsets(EdgeInsets(top: 6, leading: 24, bottom: 6, trailing: 24))
                         .swipeActions(edge: .trailing) {
                             Button(role: .destructive) {
                                 modelContext.delete(habit)
@@ -66,7 +72,7 @@ struct HabitList: View {
     }
     
     private func toggleCompletion(for habit: Habit) {
-        if habit.isCompletedToday {
+        if habit.isCompleted(on: selectedDate) {
             uncomplete(habit)
         } else {
             complete(habit)
@@ -75,15 +81,14 @@ struct HabitList: View {
     
     private func complete(_ habit: Habit) {
         habit.lastCompletedDate = .now
-        let entry = HabitEntry(date: .now, habit: habit)
+        let entry = HabitEntry(date: selectedDate, habit: habit)
         modelContext.insert(entry)
     }
     
     private func uncomplete(_ habit: Habit) {
-        habit.lastCompletedDate = nil
-        let today = Calendar.current.startOfDay(for: .now)
-        if let todayEntry = habit.entries.first(where: { $0.date == today }) {
-            modelContext.delete(todayEntry)
+        let targetDate = Calendar.current.startOfDay(for: selectedDate)
+        if let entry = habit.entries.first(where: { Calendar.current.isDate($0.date, inSameDayAs: targetDate) }) {
+            modelContext.delete(entry)
         }
     }
 }

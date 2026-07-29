@@ -14,7 +14,7 @@ struct StreakCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text("\(value)")
-                .font(.title.bold())
+                .font(.system(.title, design: .serif))
             
             Text(label)
                 .font(.footnote)

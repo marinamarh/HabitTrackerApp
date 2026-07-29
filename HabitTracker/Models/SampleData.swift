@@ -57,7 +57,7 @@ struct SampleData {
     private static let allHabits: [Habit] = [
         Habit(title: "Workout", symbol: .dumbbell, color: .green, frequency: .daily),
         Habit(title: "Read", symbol: .book, color: .blue, frequency: .daily),
-        Habit(title: "Drink Water", symbol: .drop, color: .mint, frequency: .specificDays([.fri, .sat]))
+        Habit(title: "Drink Water", symbol: .drop, color: .cyan, frequency: .specificDays([.fri, .sat]))
     ]
     
     static let previewContainer: ModelContainer = {

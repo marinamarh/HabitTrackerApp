@@ -27,17 +27,20 @@ struct StreakCalculator {
     
     static func currentStreak(habits: [Habit], calendar: Calendar = .current) -> Int {
         let allDates = habits.flatMap(\.entries).map { calendar.startOfDay(for: $0.date) }
-        guard let earliest = allDates.min() else { return 0 } // Якщо записів нуль — стрік теж 0
+        guard let earliest = allDates.min() else { return 0 }
         
         var streak = 0
-        var day = calendar.startOfDay(for: .now)
+        let today = calendar.startOfDay(for: .now)
+        var day = today
         
         while day >= earliest {
             switch dayStatus(day, habits: habits, calendar: calendar) {
             case .completed:
                 streak += 1
             case .incomplete:
-                return streak
+                if day != today {
+                    return streak
+                }
             case .notScheduled:
                 break
             }

@@ -20,7 +20,7 @@ struct WeekdayPicker: View {
 
     private func dayButton(_ day: Weekday) -> some View {
         let isSelected = selectedDays.contains(day)
-
+        
         return Button {
             toggle(day)
         } label: {
@@ -29,7 +29,7 @@ struct WeekdayPicker: View {
                 .foregroundStyle(isSelected ? .white : .primary)
                 .frame(maxWidth: .infinity)
                 .frame(height: 44)
-                .background(isSelected ? Color.accentColor : Color(uiColor: .tertiarySystemFill))
+                .background(isSelected ? Color.green.mix(with: .gray, by: 0.65) : Color(uiColor: .systemBackground))
                 .clipShape(Capsule())
         }
         .buttonStyle(.plain)

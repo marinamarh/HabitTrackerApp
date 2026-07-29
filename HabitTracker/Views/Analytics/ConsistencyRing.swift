@@ -23,6 +23,7 @@ struct ConsistencyRing: View {
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
             }
+            .padding()
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 24)

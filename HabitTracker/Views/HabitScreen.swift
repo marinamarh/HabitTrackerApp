@@ -1,5 +1,5 @@
 //
-//  HabitsView.swift
+//  HabitScreen.swift
 //  HabitTracker
 //
 //  Created by Marina Marhitych on 13.07.2026.
@@ -13,36 +13,53 @@ struct HabitScreen: View {
     @State private var isPresented: Bool = false
     private let calendar = Calendar.current
     
-    
     var body: some View {
         NavigationStack {
             ZStack {
-                VStack(alignment: .leading, spacing: 16) {
-                    Text(selectedDate.formatted(.dateTime.month(.wide).year()))
-                    
-                    VStack {
-                        CalendarView(updatesDateOnScroll: false, date: $selectedDate) { day in
-                            CalendarDayCell(day: day, isSelected: calendar.isDate(selectedDate, inSameDayAs: day.date), isToday: calendar.isDateInToday(day.date),
-                                            onTap: {
-                                withAnimation(.snappy) {
-                                    selectedDate = day.date
-                                }
-                            }
-                            )
+                VStack(alignment: .leading, spacing: 24) {
+                    HStack(alignment: .top) {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(selectedDate.formatted(.dateTime.weekday(.wide).month(.abbreviated).day()))
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
+                            
+                            Text("Today's rhythm")
+                                .font(.system(size: 34, weight: .regular, design: .serif))
+                                .foregroundStyle(.primary)
+                        }
+                        
+                        Spacer()
+                        
+                        Button {
+                            isPresented = true
+                        } label: {
+                            Image(systemName: "plus")
+                                .font(.title3.weight(.medium))
+                                .foregroundStyle(Color(uiColor: .systemBackground))
+                                .frame(width: 48, height: 48)
+                                .background(Color.primary)
+                                .clipShape(Circle())
                         }
                     }
-                    .padding()
+                    .padding(.horizontal, 24)
+                    .padding(.top, 16)
                     
-                    HabitList(selectedDate: selectedDate)
-                }
-                .padding(.top)
-            }
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        isPresented = true
-                    } label: {
-                        Label("Add habit", systemImage: "plus")
+                    VStack(spacing: 24) {
+                        CalendarView(updatesDateOnScroll: false, date: $selectedDate) { day in
+                            CalendarDayCell(
+                                day: day,
+                                isSelected: calendar.isDate(selectedDate, inSameDayAs: day.date),
+                                isToday: calendar.isDateInToday(day.date),
+                                onTap: {
+                                    withAnimation(.snappy) {
+                                        selectedDate = day.date
+                                    }
+                                }
+                            )
+                        }
+                        .padding(.horizontal, 16)
+                        
+                        HabitList(selectedDate: selectedDate)
                     }
                 }
             }

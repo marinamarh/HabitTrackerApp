@@ -15,14 +15,14 @@ struct AddHabitView: View {
     
     @State private var title = ""
     @State private var symbol: HabitSymbol
-    @State private var color: HabitColor
+    @State private var UIcolor: HabitColor
     @State private var isEveryday = true
     @State private var selectedDays: Set<Weekday> = []
     
     init() {
         let randomDefaults = Habit.createRandom()
         _symbol = State(initialValue: randomDefaults.symbol)
-        _color = State(initialValue: randomDefaults.color)
+        _UIcolor = State(initialValue: randomDefaults.color)
     }
     
     var body: some View {
@@ -35,9 +35,8 @@ struct AddHabitView: View {
                             .font(.system(size: 48, weight: .semibold))
                             .foregroundStyle(.white)
                             .frame(width: 100, height: 100)
-                            .background(color.color)
-                            .clipShape(Circle())
-                            .shadow(color: color.color.opacity(0.3), radius: 8, y: 4)
+                            .background(UIcolor.color)
+                            .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
                         Spacer()
                     }
                     .listRowBackground(Color.clear)
@@ -51,6 +50,7 @@ struct AddHabitView: View {
                 
                 Section("Frequency") {
                     Toggle("Everyday", isOn: $isEveryday.animation())
+                        .tint(.green.mix(with: .gray, by: 0.65))
                     
                     if !isEveryday {
                         WeekdayPicker(selectedDays: $selectedDays)
@@ -59,45 +59,50 @@ struct AddHabitView: View {
                 }
                 
                 Section("Color") {
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 44))], spacing: 12) {
-                        ForEach(HabitColor.allCases, id: \.self) { habitColor in
-                            Button {
-                                withAnimation { color = habitColor }
-                            } label: {
-                                Circle()
-                                    .fill(habitColor.color.gradient)
-                                    .frame(width: 44, height: 44)
-                                    .overlay {
-                                        if color == habitColor {
-                                            Circle()
-                                                .stroke(Color.gray.opacity(0.5), lineWidth: 3)
-                                                .padding(-4)
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 16) {
+                            ForEach(HabitColor.allCases, id: \.self) { habitColor in
+                                Button {
+                                    withAnimation { UIcolor = habitColor }
+                                } label: {
+                                    Circle()
+                                        .fill(habitColor.color.gradient)
+                                        .frame(width: 44, height: 44)
+                                        .overlay {
+                                            if UIcolor == habitColor {
+                                                Circle()
+                                                    .stroke(Color.gray.opacity(0.5), lineWidth: 3)
+                                                    .padding(-4)
+                                            }
                                         }
-                                    }
+                                }
+                                .buttonStyle(.plain)
                             }
-                            .buttonStyle(.plain)
                         }
+                        .padding([.vertical, .horizontal], 8)
                     }
-                    .padding(.vertical, 8)
                 }
                 
                 Section("Icon") {
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 44))], spacing: 12) {
-                        ForEach(HabitSymbol.allCases, id: \.self) { habitSymbol in
-                            Button {
-                                withAnimation { symbol = habitSymbol }
-                            } label: {
-                                Image(systemName: habitSymbol.systemName)
-                                    .font(.title2)
-                                    .foregroundStyle(symbol == habitSymbol ? .white : .primary)
-                                    .frame(width: 44, height: 44)
-                                    .background(symbol == habitSymbol ? Color.gray.opacity(0.8) : Color(UIColor.tertiarySystemFill))
-                                    .clipShape(Circle())
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 16) {
+                            ForEach(HabitSymbol.allCases, id: \.self) { habitSymbol in
+                                Button {
+                                    withAnimation { symbol = habitSymbol }
+                                } label: {
+                                    Image(systemName: habitSymbol.systemName)
+                                        .font(.title2)
+                                        .foregroundStyle(symbol == habitSymbol ? .white : .primary)
+                                        .frame(width: 44, height: 44)
+                                        .background(symbol == habitSymbol ? UIcolor.color : Color(UIColor.tertiarySystemFill))
+                                        .clipShape(Circle())
+                                    
+                                }
+                                .buttonStyle(.plain)
                             }
-                            .buttonStyle(.plain)
                         }
+                        .padding([.vertical, .horizontal], 8)
                     }
-                    .padding(.vertical, 8)
                 }
             }
             .navigationTitle("New Habit")
@@ -116,7 +121,7 @@ struct AddHabitView: View {
     
     private func saveHabit() {
         let frequency: HabitFrequency = isEveryday ? .daily : .specificDays(Array(selectedDays))
-        let habit = Habit(title: title, symbol: symbol, color: color, frequency: frequency)
+        let habit = Habit(title: title, symbol: symbol, color: UIcolor, frequency: frequency)
         modelContext.insert(habit)
         dismiss()
     }

@@ -18,16 +18,19 @@ struct HabitRow: View {
     }
     
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: 16) {
             Image(systemName: habit.symbol.systemName)
-                .font(.body.weight(.semibold))
-                .foregroundStyle(.white)
-                .frame(width: 36, height: 36)
-                .background(habit.uiColor)
-                .clipShape(Circle())
+                .font(.title3.weight(.semibold))
+                .foregroundStyle(habit.uiColor)
+                .frame(width: 52, height: 52)
+                .background(habit.uiColor.opacity(0.15))
+                .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
             
-            Text(habit.title)
-                .font(.body)
+            VStack(alignment: .leading, spacing: 4) {
+                Text(habit.title)
+                    .font(.system(size: 17, weight: .semibold, design: .default))
+                    .foregroundStyle(.primary)
+            }
             
             Spacer()
             
@@ -37,22 +40,37 @@ struct HabitRow: View {
                 }
             } label: {
                 Image(systemName: habit.isCompleted(on: selectedDate) ? "checkmark.circle.fill" : "circle")
-                    .font(.title2)
-                    .foregroundStyle(habit.isCompleted(on: selectedDate) ? habit.uiColor : Color.secondary)
+                    .resizable()
+                    .frame(width: 28, height: 28)
+                    .foregroundStyle(
+                        habit.isCompleted(on: selectedDate)
+                        ? Color.green.mix(with: .gray, by: 0.65)
+                        : Color.secondary.opacity(0.3)
+                    )
             }
             .buttonStyle(.plain)
-            .disabled(!isToday)
         }
-        .padding(.vertical, 4)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
+        .background(.ultraThinMaterial)
+        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
         .opacity(isToday ? 1 : 0.5)
     }
 }
 
 #Preview {
-    HabitRow(
-        habit: Habit(title: "Drink Water", symbol: .drop, color: .blue),
-        selectedDate: .now,
-        onToggle: {}
-    )
+    VStack(spacing: 12) {
+        HabitRow(
+            habit: Habit(title: "Morning meditation", symbol: .drop, color: .green),
+            selectedDate: .now,
+            onToggle: {}
+        )
+        
+        HabitRow(
+            habit: Habit(title: "Read a book", symbol: .book, color: .blue),
+            selectedDate: Calendar.current.date(byAdding: .day, value: -1, to: .now)!,
+            onToggle: {}
+        )
+    }
     .padding()
 }
