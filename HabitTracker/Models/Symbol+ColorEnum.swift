@@ -73,3 +73,7 @@ enum HabitColor: String, Codable, CaseIterable {
         }
     }
 }
+
+extension Color {
+    static let sageGreen = Color.green.mix(with: .gray, by: 0.65)
+}

@@ -8,7 +8,7 @@
 import Foundation
 
 struct StreakCalculator {
-    
+
     enum DayStatus {
         case completed
         case incomplete

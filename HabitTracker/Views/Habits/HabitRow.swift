@@ -44,7 +44,7 @@ struct HabitRow: View {
                     .frame(width: 28, height: 28)
                     .foregroundStyle(
                         habit.isCompleted(on: selectedDate)
-                        ? Color.green.mix(with: .gray, by: 0.65)
+                        ? Color.sageGreen
                         : Color.secondary.opacity(0.3)
                     )
             }

@@ -25,7 +25,7 @@ struct DailyProgressBar: View {
                         .fill(Color.gray.opacity(0.2))
                     
                     Capsule()
-                        .fill(Color.green.mix(with: .gray, by: 0.65))
+                        .fill(Color.sageGreen)
                         .frame(width: proxy.size.width * progress)
                 }
             }

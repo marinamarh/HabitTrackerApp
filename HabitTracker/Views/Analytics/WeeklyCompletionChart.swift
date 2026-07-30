@@ -40,7 +40,7 @@ struct WeeklyCompletionChart: View {
                         .foregroundStyle(.white)
                         .padding(12)
                         .frame(width: 100)
-                        .background(RoundedRectangle(cornerRadius: 10).fill(Color.green.mix(with: .gray, by: 0.65).gradient))
+                        .background(RoundedRectangle(cornerRadius: 10).fill(Color.sageGreen.gradient))
                     }
             }
             
@@ -49,7 +49,7 @@ struct WeeklyCompletionChart: View {
                     x: .value("Day", entry.date, unit: .day),
                     y: .value("Completed", entry.completedCount)
                 )
-                .foregroundStyle(Color.green.mix(with: .gray, by: 0.65))
+                .foregroundStyle(Color.sageGreen)
                 .cornerRadius(4)
                 .opacity(rawSelectedDate == nil || entry.date == selectedDay?.date ? 1 : 0.3)
             }

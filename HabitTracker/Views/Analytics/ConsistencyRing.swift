@@ -11,7 +11,7 @@ struct ConsistencyRing: View {
     var body: some View {
         VStack(spacing: 12) {
             Circle()
-                .stroke(Color.green.mix(with: .gray, by: 0.65), lineWidth: 14)
+                .stroke(Color.sageGreen, lineWidth: 14)
                 .frame(width: 160, height: 160)
 
             VStack(spacing: 2) {

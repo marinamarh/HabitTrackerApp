@@ -62,7 +62,7 @@ struct EditHabitView: View {
                 
                 Section("Frequency") {
                     Toggle("Everyday", isOn: $isEveryday.animation())
-                        .tint(.green.mix(with: .gray, by: 0.65))
+                        .tint(Color.sageGreen)
                     
                     if !isEveryday {
                         WeekdayPicker(selectedDays: $selectedDays)
