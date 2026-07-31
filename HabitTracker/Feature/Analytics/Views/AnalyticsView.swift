@@ -11,7 +11,6 @@ import SwiftData
 struct AnalyticsView: View {
     @Query private var entries: [HabitEntry]
     @Query private var habits: [Habit]
-    @State private var viewModel = AnalyticsViewModel()
     
     var body: some View {
         if habits.isEmpty {
@@ -22,6 +21,9 @@ struct AnalyticsView: View {
             )
             .containerRelativeFrame(.vertical)
         } else {
+            let weeklyData = AnalyticsViewModel.weeklyData(from: entries)
+            let streaks = StreakCalculator.streaks(habits: habits)
+            
             VStack(alignment: .leading, spacing: 20) {
                 
                 VStack(alignment: .leading, spacing: 2) {
@@ -35,8 +37,8 @@ struct AnalyticsView: View {
                 ConsistencyRing()
                 
                 HStack(spacing: 12) {
-                    StreakCard(value: viewModel.currentStreak, label: "Current best streak")
-                    StreakCard(value: viewModel.longestStreak, label: "Longest ever, in days")
+                    StreakCard(value: streaks.current, label: "Current best streak")
+                    StreakCard(value: streaks.longest, label: "Longest ever, in days")
                 }
                 
                 VStack(alignment: .leading, spacing: 12) {
@@ -51,7 +53,7 @@ struct AnalyticsView: View {
                             .foregroundStyle(.secondary)
                     }
                     
-                    WeeklyCompletionChart(weeklyData: viewModel.weeklyData)
+                    WeeklyCompletionChart(weeklyData: weeklyData)
                 }
                 .padding()
                 .background {
@@ -59,10 +61,6 @@ struct AnalyticsView: View {
                         .fill(Color(.systemBackground))
                         .shadow(color: .black.opacity(0.04), radius: 6, y: 2)
                 }
-            }
-            .onAppear {
-                viewModel.loadWeeklyData(from: entries)
-                viewModel.loadStreaks(from: habits)
             }
         }
     }

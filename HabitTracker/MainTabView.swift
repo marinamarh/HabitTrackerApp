@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-struct ContentView: View {
+struct MainTabView: View {
     @Environment(\.modelContext) private var modelContext
 
     var body: some View {
@@ -25,10 +25,11 @@ struct ContentView: View {
                 Text("Settings Screen")
             }
         }
+        .tint(.primary)
     }
 }
 
 #Preview {
-    ContentView()
+    MainTabView()
         .modelContainer(for: [Habit.self, HabitEntry.self], inMemory: true)
 }

@@ -21,7 +21,8 @@ final class Habit {
     private var specificWeekdaysRaw: [String]
     
     var lastCompletedDate: Date?
-    
+    var createdAt: Date = Date.now
+
     @Relationship(deleteRule: .cascade, inverse: \HabitEntry.habit)
     var entries: [HabitEntry] = []
 
@@ -47,6 +48,7 @@ final class Habit {
         self.symbol = symbol
         self.color = color
         self.lastCompletedDate = nil
+        self.createdAt = .now
 
         switch frequency {
         case .daily:
