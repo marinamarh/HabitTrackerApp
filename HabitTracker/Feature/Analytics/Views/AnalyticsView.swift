@@ -34,7 +34,7 @@ struct AnalyticsView: View {
                     Text("Your progress")
                         .font(.system(.largeTitle, design: .serif))
                 }
-                ConsistencyRing()
+                ConsistencyRing(percentage: monthPercentage)
                 
                 HStack(spacing: 12) {
                     StreakCard(value: streaks.current, label: "Current best streak")
@@ -66,11 +66,11 @@ struct AnalyticsView: View {
     }
     
     private var weekPercentage: Int {
-        0
+        AnalyticsViewModel.completionPercentage(habits: habits, daysBack: 7)
     }
     
     private var monthPercentage: Int {
-        0
+        AnalyticsViewModel.completionPercentage(habits: habits, daysBack: 30)
     }
 }
 

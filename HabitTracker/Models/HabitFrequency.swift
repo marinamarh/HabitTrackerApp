@@ -5,7 +5,6 @@
 //  Created by Marina Marhitych on 12.07.2026.
 //
 
-
 import Foundation
 
 enum HabitFrequency: Codable, Hashable, Equatable {

@@ -48,6 +48,7 @@ struct HabitRow: View {
                         : Color.secondary.opacity(0.3)
                     )
             }
+            .disabled(!isToday)
             .buttonStyle(.plain)
         }
         .padding(.horizontal, 16)

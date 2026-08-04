@@ -8,16 +8,34 @@
 import SwiftUI
 
 struct ConsistencyRing: View {
+    let percentage: Int
+    
+    private var progress: Double {
+        min(max(Double(percentage) / 100, 0), 1)
+    }
+    
     var body: some View {
         VStack(spacing: 12) {
-            Circle()
-                .stroke(Color.sageGreen, lineWidth: 14)
-                .frame(width: 160, height: 160)
-
+            ZStack {
+                Circle()
+                    .stroke(Color.sageGreen.opacity(0.2), lineWidth: 14)
+                
+                Circle()
+                    .trim(from: 0, to: progress)
+                    .stroke(Color.sageGreen, style: StrokeStyle(lineWidth: 14, lineCap: .round))
+                    .rotationEffect(.degrees(-90))
+                    .animation(.easeInOut, value: progress)
+                
+                Text("\(percentage)%")
+                    .font(.system(.title, design: .serif))
+                    .bold()
+            }
+            .frame(width: 160, height: 160)
+            
             VStack(spacing: 2) {
                 Text("Consistency")
                     .font(.headline)
-
+                
                 Text("30-day completion across all habits")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
@@ -34,6 +52,10 @@ struct ConsistencyRing: View {
 }
 
 #Preview {
-    ConsistencyRing()
-        .padding()
+    VStack(spacing: 20) {
+        ConsistencyRing(percentage: 74)
+        ConsistencyRing(percentage: 0)
+        ConsistencyRing(percentage: 100)
+    }
+    .padding()
 }

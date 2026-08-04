@@ -72,6 +72,8 @@ struct HabitList: View {
     }
     
     private func toggleCompletion(for habit: Habit) {
+        guard Calendar.current.isDateInToday(selectedDate) else { return }
+        
         if habit.isCompleted(on: selectedDate) {
             uncomplete(habit)
         } else {
