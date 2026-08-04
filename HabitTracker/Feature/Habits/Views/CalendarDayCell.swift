@@ -16,20 +16,20 @@ struct CalendarDayCell: View {
     var body: some View {
         VStack(spacing: 6) {
             Text(day.weekdaySymbol)
-                .font(.caption)
-                .foregroundStyle(.gray)
+                .font(.subheadline)
+                .fontWeight(.medium)
+                .foregroundStyle(.secondary)
             
             Text("\(day.value)")
-                .fontWeight(isSelected || isToday ? .semibold : .regular)
+                .font(.title3)
+                .fontWeight(isSelected ? .semibold : .medium)
                 .foregroundStyle(
-                    isSelected ? .white : isToday ? Color.accentColor : (
-                        day.notFromThisMonth ? Color.gray : Color.primary
-                    )
+                    isSelected ? .white : (day.notFromThisMonth ? Color.gray.opacity(0.5) : Color.primary)
                 )
-                .frame(width: 38, height: 38)
+                .frame(width: 44, height: 44)
                 .background {
                     if isSelected {
-                        Circle().fill(.black)
+                        RoundedRectangle(cornerRadius: 14, style: .continuous).fill(.black)
                     }
                 }
         }

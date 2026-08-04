@@ -9,7 +9,7 @@ import SwiftUI
 
 // Model
 struct Day: Identifiable {
-    var id: String = UUID().uuidString
+    var id: Date { date }
     var value: Int
     var weekdaySymbol: String
     var date: Date

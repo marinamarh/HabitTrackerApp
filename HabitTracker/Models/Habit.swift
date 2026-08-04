@@ -19,8 +19,12 @@ final class Habit {
 
     private var frequencyIsDaily: Bool
     private var specificWeekdaysRaw: [String]
-
+    
     var lastCompletedDate: Date?
+    var createdAt: Date = Date.now
+
+    @Relationship(deleteRule: .cascade, inverse: \HabitEntry.habit)
+    var entries: [HabitEntry] = []
 
     var frequency: HabitFrequency {
         get {
@@ -38,12 +42,13 @@ final class Habit {
         }
     }
 
-    init(title: String, symbol: HabitSymbol = .calendar, color: HabitColor = .green, frequency: HabitFrequency = .daily) {
+    init(title: String, symbol: HabitSymbol = .book, color: HabitColor = .green, frequency: HabitFrequency = .daily) {
         self.id = UUID()
         self.title = title
         self.symbol = symbol
         self.color = color
         self.lastCompletedDate = nil
+        self.createdAt = .now
 
         switch frequency {
         case .daily:
@@ -58,21 +63,16 @@ final class Habit {
 
 extension Habit {
     var isCompletedToday: Bool {
-        guard let lastCompletedDate else { return false }
-        return Calendar.current.isDateInToday(lastCompletedDate)
+        isCompleted(on: .now)
     }
-
-    func toggleCompletion() {
-        lastCompletedDate = isCompletedToday ? nil : .now
-    }
-
+    
     func isScheduled(on date: Date) -> Bool {
         frequency.includes(Weekday(date: date))
     }
     
     func isCompleted(on date: Date, calendar: Calendar = .current) -> Bool {
-        guard calendar.isDateInToday(date) else { return false }
-        return isCompletedToday
+        let targetDate = calendar.startOfDay(for: date)
+        return entries.contains { calendar.isDate($0.date, inSameDayAs: targetDate) }
     }
 }
 

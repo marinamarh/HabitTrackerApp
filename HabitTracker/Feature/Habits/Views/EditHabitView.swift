@@ -16,7 +16,7 @@ struct EditHabitView: View {
     
     @State private var title: String
     @State private var symbol: HabitSymbol
-    @State private var color: HabitColor
+    @State private var UIcolor: HabitColor
     @State private var isEveryday: Bool
     @State private var selectedDays: Set<Weekday>
     
@@ -25,7 +25,7 @@ struct EditHabitView: View {
         
         _title = State(initialValue: habit.title)
         _symbol = State(initialValue: habit.symbol)
-        _color = State(initialValue: habit.color)
+        _UIcolor = State(initialValue: habit.color)
         
         switch habit.frequency {
         case .daily:
@@ -47,9 +47,8 @@ struct EditHabitView: View {
                             .font(.system(size: 48, weight: .semibold))
                             .foregroundStyle(.white)
                             .frame(width: 100, height: 100)
-                            .background(color.color)
-                            .clipShape(Circle())
-                            .shadow(color: color.color.opacity(0.3), radius: 8, y: 4)
+                            .background(UIcolor.color)
+                            .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
                         Spacer()
                     }
                     .listRowBackground(Color.clear)
@@ -63,6 +62,7 @@ struct EditHabitView: View {
                 
                 Section("Frequency") {
                     Toggle("Everyday", isOn: $isEveryday.animation())
+                        .tint(Color.sageGreen)
                     
                     if !isEveryday {
                         WeekdayPicker(selectedDays: $selectedDays)
@@ -71,45 +71,49 @@ struct EditHabitView: View {
                 }
                 
                 Section("Color") {
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 44))], spacing: 12) {
-                        ForEach(HabitColor.allCases, id: \.self) { habitColor in
-                            Button {
-                                withAnimation { color = habitColor }
-                            } label: {
-                                Circle()
-                                    .fill(habitColor.color.gradient)
-                                    .frame(width: 44, height: 44)
-                                    .overlay {
-                                        if color == habitColor {
-                                            Circle()
-                                                .stroke(Color.gray.opacity(0.5), lineWidth: 3)
-                                                .padding(-4)
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 16) {
+                            ForEach(HabitColor.allCases, id: \.self) { habitColor in
+                                Button {
+                                    withAnimation { UIcolor = habitColor }
+                                } label: {
+                                    Circle()
+                                        .fill(habitColor.color.gradient)
+                                        .frame(width: 44, height: 44)
+                                        .overlay {
+                                            if UIcolor == habitColor {
+                                                Circle()
+                                                    .stroke(Color.gray.opacity(0.5), lineWidth: 3)
+                                                    .padding(-4)
+                                            }
                                         }
-                                    }
+                                }
+                                .buttonStyle(.plain)
                             }
-                            .buttonStyle(.plain)
                         }
+                        .padding([.vertical, .horizontal], 8)
                     }
-                    .padding(.vertical, 8)
                 }
                 
                 Section("Icon") {
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 44))], spacing: 12) {
-                        ForEach(HabitSymbol.allCases, id: \.self) { habitSymbol in
-                            Button {
-                                withAnimation { symbol = habitSymbol }
-                            } label: {
-                                Image(systemName: habitSymbol.systemName)
-                                    .font(.title2)
-                                    .foregroundStyle(symbol == habitSymbol ? .white : .primary)
-                                    .frame(width: 44, height: 44)
-                                    .background(symbol == habitSymbol ? Color.gray.opacity(0.8) : Color(UIColor.tertiarySystemFill))
-                                    .clipShape(Circle())
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 16) {
+                            ForEach(HabitSymbol.allCases, id: \.self) { habitSymbol in
+                                Button {
+                                    withAnimation { symbol = habitSymbol }
+                                } label: {
+                                    Image(systemName: habitSymbol.systemName)
+                                        .font(.title2)
+                                        .foregroundStyle(symbol == habitSymbol ? .white : .primary)
+                                        .frame(width: 44, height: 44)
+                                        .background(symbol == habitSymbol ? UIcolor.color : Color(UIColor.tertiarySystemFill))
+                                        .clipShape(Circle())
+                                }
+                                .buttonStyle(.plain)
                             }
-                            .buttonStyle(.plain)
                         }
+                        .padding([.vertical, .horizontal], 8)
                     }
-                    .padding(.vertical, 8)
                 }
             }
             .navigationTitle("Edit Habit")
@@ -129,7 +133,7 @@ struct EditHabitView: View {
     private func saveHabit() {
         habit.title = title
         habit.symbol = symbol
-        habit.color = color
+        habit.color = UIcolor
         habit.frequency = isEveryday ? .daily : .specificDays(Array(selectedDays))
         dismiss()
     }

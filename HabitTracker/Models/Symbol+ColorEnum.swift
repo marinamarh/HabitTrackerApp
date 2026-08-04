@@ -19,19 +19,16 @@ enum HabitSymbol: String, Codable, CaseIterable {
     case leaf = "leaf.fill"
     case drop = "drop.fill"
     case moon = "moon.stars.fill"
-    case stove = "stove.fill"
     case bed = "bed.double.fill"
     case forkKnife = "fork.knife"
     case cup = "cup.and.saucer.fill"
     case sun = "sun.max.fill"
     case flame = "flame.fill"
     case dumbbell = "dumbbell.fill"
+    case figureYoga = "figure.yoga"
     case clock = "clock.fill"
-    case washer = "washer.fill"
     case star = "star.fill"
-    case car = "car.fill"
-    case volleyball = "volleyball.fill"
-    case calendar = "calendar"
+    case flower = "camera.macro"
     case pencil = "pencil"
     case music = "music.note"
     case game = "gamecontroller.fill"
@@ -39,7 +36,6 @@ enum HabitSymbol: String, Codable, CaseIterable {
     case bicycle = "bicycle"
     case figureWalk = "figure.walk"
     case dog = "dog.fill"
-    case figureYoga = "figure.yoga"
     
     var systemName: String {
         rawValue
@@ -47,45 +43,37 @@ enum HabitSymbol: String, Codable, CaseIterable {
 }
 
 enum HabitColor: String, Codable, CaseIterable {
-    case red
-    case orange
-    case yellow
-    case cyan
     case green
-    case mint
-    case teal
+    case cyan
     case blue
+    case yellow
     case indigo
     case purple
-    case pink
-    case brown
+    case red
+    case orange
     
     var color: Color {
         switch self {
-        case .red:
-            Color.red
-        case .orange:
-            Color.orange
-        case .yellow:
-            Color.yellow
-        case .cyan:
-            Color.cyan
         case .green:
-            Color.green
-        case .mint:
-            Color.mint
-        case .teal:
-            Color.teal
+            Color.green.mix(with: .gray, by: 0.5)
+        case .cyan:
+            Color.cyan.mix(with: .gray, by: 0.5)
         case .blue:
-            Color.blue
+            Color.blue.mix(with: .gray, by: 0.5)
+        case .yellow:
+            Color.yellow.mix(with: .gray, by: 0.5)
         case .indigo:
-            Color.indigo
+            Color.indigo.mix(with: .gray, by: 0.5)
         case .purple:
-            Color.purple
-        case .pink:
-            Color.pink
-        case .brown:
-            Color.brown
+            Color.purple.mix(with: .gray, by: 0.5)
+        case .red:
+            Color.red.mix(with: .gray, by: 0.5)
+        case .orange:
+            Color.orange.mix(with: .gray, by: 0.5)
         }
     }
+}
+
+extension Color {
+    static let sageGreen = Color.green.mix(with: .gray, by: 0.65)
 }

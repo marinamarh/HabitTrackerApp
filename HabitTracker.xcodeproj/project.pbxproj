@@ -10,9 +10,20 @@
 		83119C192FF95140000FEF60 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 83119C182FF95140000FEF60 /* .gitignore */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		8373E1DE301744D500EC5D90 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83119BFE2FF94E48000FEF60 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 83119C052FF94E48000FEF60;
+			remoteInfo = HabitTracker;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		83119C062FF94E48000FEF60 /* HabitTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HabitTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		83119C182FF95140000FEF60 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		8373E1DA301744D500EC5D90 /* HabitTrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HabitTrackerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -21,10 +32,22 @@
 			path = HabitTracker;
 			sourceTree = "<group>";
 		};
+		8373E1DB301744D500EC5D90 /* HabitTrackerTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = HabitTrackerTests;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		83119C032FF94E48000FEF60 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8373E1D7301744D500EC5D90 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -39,6 +62,7 @@
 			children = (
 				83119C182FF95140000FEF60 /* .gitignore */,
 				83119C082FF94E48000FEF60 /* HabitTracker */,
+				8373E1DB301744D500EC5D90 /* HabitTrackerTests */,
 				83119C072FF94E48000FEF60 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -47,6 +71,7 @@
 			isa = PBXGroup;
 			children = (
 				83119C062FF94E48000FEF60 /* HabitTracker.app */,
+				8373E1DA301744D500EC5D90 /* HabitTrackerTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -76,6 +101,29 @@
 			productReference = 83119C062FF94E48000FEF60 /* HabitTracker.app */;
 			productType = "com.apple.product-type.application";
 		};
+		8373E1D9301744D500EC5D90 /* HabitTrackerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8373E1E0301744D500EC5D90 /* Build configuration list for PBXNativeTarget "HabitTrackerTests" */;
+			buildPhases = (
+				8373E1D6301744D500EC5D90 /* Sources */,
+				8373E1D7301744D500EC5D90 /* Frameworks */,
+				8373E1D8301744D500EC5D90 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8373E1DF301744D500EC5D90 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				8373E1DB301744D500EC5D90 /* HabitTrackerTests */,
+			);
+			name = HabitTrackerTests;
+			packageProductDependencies = (
+			);
+			productName = HabitTrackerTests;
+			productReference = 8373E1DA301744D500EC5D90 /* HabitTrackerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -88,6 +136,10 @@
 				TargetAttributes = {
 					83119C052FF94E48000FEF60 = {
 						CreatedOnToolsVersion = 26.6;
+					};
+					8373E1D9301744D500EC5D90 = {
+						CreatedOnToolsVersion = 26.6;
+						TestTargetID = 83119C052FF94E48000FEF60;
 					};
 				};
 			};
@@ -106,6 +158,7 @@
 			projectRoot = "";
 			targets = (
 				83119C052FF94E48000FEF60 /* HabitTracker */,
+				8373E1D9301744D500EC5D90 /* HabitTrackerTests */,
 			);
 		};
 /* End PBXProject section */
@@ -119,6 +172,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8373E1D8301744D500EC5D90 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -129,7 +189,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8373E1D6301744D500EC5D90 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8373E1DF301744D500EC5D90 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 83119C052FF94E48000FEF60 /* HabitTracker */;
+			targetProxy = 8373E1DE301744D500EC5D90 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		83119C112FF94E49000FEF60 /* Debug */ = {
@@ -317,6 +392,48 @@
 			};
 			name = Release;
 		};
+		8373E1E1301744D500EC5D90 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = mm.HabitTrackerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HabitTracker.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HabitTracker";
+			};
+			name = Debug;
+		};
+		8373E1E2301744D500EC5D90 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = mm.HabitTrackerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HabitTracker.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HabitTracker";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -334,6 +451,15 @@
 			buildConfigurations = (
 				83119C142FF94E49000FEF60 /* Debug */,
 				83119C152FF94E49000FEF60 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8373E1E0301744D500EC5D90 /* Build configuration list for PBXNativeTarget "HabitTrackerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8373E1E1301744D500EC5D90 /* Debug */,
+				8373E1E2301744D500EC5D90 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
