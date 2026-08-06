@@ -22,7 +22,7 @@ struct MainTabView: View {
             }
             
             Tab("Settings", systemImage: "gearshape.fill") {
-                Text("Settings Screen")
+                SettingView()
             }
         }
         .tint(.primary)

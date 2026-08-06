@@ -22,9 +22,22 @@ enum HabitFrequency: Codable, Hashable, Equatable {
 }
 
 enum Weekday: String, Codable, CaseIterable, Identifiable {
+    
     case mon = "Mon", tue = "Tue", wed = "Wed", thu = "Thu", fri = "Fri", sat = "Sat", sun = "Sun"
     
     var id: String { rawValue }
+    
+    var calendarWeekday: Int {
+        switch self {
+        case .sun: 1
+        case .mon: 2
+        case .tue: 3
+        case .wed: 4
+        case .thu: 5
+        case .fri: 6
+        case .sat: 7
+        }
+    }
     
     init(date: Date, calendar: Calendar = .current) {
         switch calendar.component(.weekday, from: date) {
