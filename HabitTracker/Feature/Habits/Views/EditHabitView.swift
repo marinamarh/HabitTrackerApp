@@ -20,12 +20,18 @@ struct EditHabitView: View {
     @State private var isEveryday: Bool
     @State private var selectedDays: Set<Weekday>
     
+    @State private var isReminderEnabled: Bool
+    @State private var reminderTime: Date
+    @State private var showPermissionAlert = false
+    
     init(habit: Habit) {
         self.habit = habit
         
         _title = State(initialValue: habit.title)
         _symbol = State(initialValue: habit.symbol)
         _UIcolor = State(initialValue: habit.color)
+        _isReminderEnabled = State(initialValue: habit.reminderTime != nil)
+        _reminderTime = State(initialValue: habit.reminderTime ?? Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: .now) ?? .now)
         
         switch habit.frequency {
         case .daily:
@@ -55,7 +61,7 @@ struct EditHabitView: View {
                     .padding(.vertical, 8)
                 }
                 
-                Section {
+                Section("Name") {
                     TextField("Habit Name", text: $title)
                         .autocorrectionDisabled(true)
                 }
@@ -67,6 +73,25 @@ struct EditHabitView: View {
                     if !isEveryday {
                         WeekdayPicker(selectedDays: $selectedDays)
                             .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
+                    }
+                }
+                
+                Section("Reminder") {
+                    Toggle("Remind Me", isOn: $isReminderEnabled.animation())
+                        .tint(Color.sageGreen)
+                    
+                    if isReminderEnabled {
+                        DatePicker("Time", selection: $reminderTime, displayedComponents: .hourAndMinute)
+                    }
+                }
+                .onChange(of: isReminderEnabled) { _, isEnabled in
+                    guard isEnabled else { return }
+                    Task {
+                        let granted = await NotificationManager.requestAuthorization()
+                        if !granted {
+                            isReminderEnabled = false
+                            showPermissionAlert = true
+                        }
                     }
                 }
                 
@@ -127,6 +152,12 @@ struct EditHabitView: View {
                         .disabled(title.isEmpty || (!isEveryday && selectedDays.isEmpty))
                 }
             }
+            .alert("Notifications Disabled", isPresented: $showPermissionAlert) {
+                Button("Open Settings") { openSystemSettings() }
+                Button("Cancel", role: .cancel) { }
+            } message: {
+                Text("Enable notifications in system Settings to get reminders for this habit.")
+            }
         }
     }
     
@@ -135,7 +166,20 @@ struct EditHabitView: View {
         habit.symbol = symbol
         habit.color = UIcolor
         habit.frequency = isEveryday ? .daily : .specificDays(Array(selectedDays))
+        habit.reminderTime = isReminderEnabled ? reminderTime : nil
+        
+        if isReminderEnabled {
+            NotificationManager.scheduleReminder(for: habit)
+        } else {
+            NotificationManager.cancelReminder(for: habit)
+        }
+        
         dismiss()
+    }
+    
+    private func openSystemSettings() {
+        guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+        UIApplication.shared.open(url)
     }
 }
 

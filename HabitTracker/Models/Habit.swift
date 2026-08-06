@@ -22,6 +22,7 @@ final class Habit {
     
     var lastCompletedDate: Date?
     var createdAt: Date = Date.now
+    var reminderTime: Date?
 
     @Relationship(deleteRule: .cascade, inverse: \HabitEntry.habit)
     var entries: [HabitEntry] = []
@@ -42,13 +43,14 @@ final class Habit {
         }
     }
 
-    init(title: String, symbol: HabitSymbol = .book, color: HabitColor = .green, frequency: HabitFrequency = .daily) {
+    init(title: String, symbol: HabitSymbol = .book, color: HabitColor = .green, frequency: HabitFrequency = .daily, reminderTime: Date? = nil) {
         self.id = UUID()
         self.title = title
         self.symbol = symbol
         self.color = color
         self.lastCompletedDate = nil
         self.createdAt = .now
+        self.reminderTime = reminderTime
 
         switch frequency {
         case .daily:

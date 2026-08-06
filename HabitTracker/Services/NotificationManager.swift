@@ -1,4 +1,11 @@
-// Services/NotificationManager.swift
+//
+//  NotificationManager.swift
+//  HabitTracker
+//
+//  Created by Marina Marhitych on 05.08.2026.
+//
+
+
 import Foundation
 import UserNotifications
 

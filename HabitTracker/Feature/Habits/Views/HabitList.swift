@@ -47,6 +47,8 @@ struct HabitList: View {
                         .listRowInsets(EdgeInsets(top: 6, leading: 24, bottom: 6, trailing: 24))
                         .swipeActions(edge: .trailing) {
                             Button(role: .destructive) {
+                                NotificationManager.cancelReminder(for: habit)
+                                
                                 modelContext.delete(habit)
                             } label: {
                                 Label("Delete", systemImage: "trash")

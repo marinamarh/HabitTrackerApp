@@ -10,22 +10,43 @@ import SwiftData
 
 @main
 struct HabitTrackerApp: App {
+    @AppStorage("selectedTheme") private var selectedTheme: AppTheme = .system
+    
+    init() {
+        let appearance = UINavigationBarAppearance()
+        let largeTitleFont = UIFont.systemFont(ofSize: 34, weight: .regular)
+        if let serifDescriptor = largeTitleFont.fontDescriptor.withDesign(.serif) {
+            let serifFont = UIFont(descriptor: serifDescriptor, size: 34)
+            appearance.largeTitleTextAttributes = [.font: serifFont]
+        }
+        
+        let inlineTitleFont = UIFont.systemFont(ofSize: 17, weight: .regular)
+        if let inlineSerifDescriptor = inlineTitleFont.fontDescriptor.withDesign(.serif) {
+            let inlineSerifFont = UIFont(descriptor: inlineSerifDescriptor, size: 17)
+            appearance.titleTextAttributes = [.font: inlineSerifFont]
+        }
+        
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+    }
+    
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Habit.self
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
+        
         do {
             return try ModelContainer(for: schema, configurations: [modelConfiguration])
         } catch {
             fatalError("Could not create ModelContainer: \(error)")
         }
     }()
-
+    
     var body: some Scene {
         WindowGroup {
             MainTabView()
+                .preferredColorScheme(selectedTheme.colorScheme)
         }
         .modelContainer(sharedModelContainer)
     }
