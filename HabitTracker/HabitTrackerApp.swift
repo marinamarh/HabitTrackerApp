@@ -11,6 +11,7 @@ import SwiftData
 @main
 struct HabitTrackerApp: App {
     @AppStorage("selectedTheme") private var selectedTheme: AppTheme = .system
+    @State private var notificationService = NotificationService()
     
     init() {
         let appearance = UINavigationBarAppearance()
@@ -47,6 +48,7 @@ struct HabitTrackerApp: App {
         WindowGroup {
             MainTabView()
                 .preferredColorScheme(selectedTheme.colorScheme)
+                .environment(notificationService)
         }
         .modelContainer(sharedModelContainer)
     }

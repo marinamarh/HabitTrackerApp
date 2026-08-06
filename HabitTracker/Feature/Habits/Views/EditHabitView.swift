@@ -13,6 +13,7 @@ struct EditHabitView: View {
     let habit: Habit
     
     @Environment(\.dismiss) private var dismiss
+    @Environment(NotificationService.self) private var notificationService
     
     @State private var title: String
     @State private var symbol: HabitSymbol
@@ -87,8 +88,8 @@ struct EditHabitView: View {
                 .onChange(of: isReminderEnabled) { _, isEnabled in
                     guard isEnabled else { return }
                     Task {
-                        let granted = await NotificationManager.requestAuthorization()
-                        if !granted {
+                        try? await notificationService.requestAuthorization()
+                        if notificationService.permission != .authorized {
                             isReminderEnabled = false
                             showPermissionAlert = true
                         }
@@ -169,9 +170,9 @@ struct EditHabitView: View {
         habit.reminderTime = isReminderEnabled ? reminderTime : nil
         
         if isReminderEnabled {
-            NotificationManager.scheduleReminder(for: habit)
+            Task { await notificationService.scheduleReminder(for: habit) }
         } else {
-            NotificationManager.cancelReminder(for: habit)
+            notificationService.cancelReminder(for: habit)
         }
         
         dismiss()
@@ -186,4 +187,5 @@ struct EditHabitView: View {
 #Preview {
     EditHabitView(habit: Habit(title: "Workout", symbol: .dumbbell, color: .green))
         .modelContainer(SampleData.previewContainer)
+        .environment(NotificationService())
 }

@@ -12,6 +12,7 @@ struct AddHabitView: View {
     
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    @Environment(NotificationService.self) private var notificationService
     
     @State private var title = ""
     @State private var symbol: HabitSymbol
@@ -73,8 +74,8 @@ struct AddHabitView: View {
                 .onChange(of: isReminderEnabled) { _, isEnabled in
                     guard isEnabled else { return }
                     Task {
-                        let granted = await NotificationManager.requestAuthorization()
-                        if !granted {
+                        try? await notificationService.requestAuthorization()
+                        if notificationService.permission != .authorized {
                             isReminderEnabled = false
                             showPermissionAlert = true
                         }
@@ -160,7 +161,7 @@ struct AddHabitView: View {
         modelContext.insert(habit)
         
         if isReminderEnabled {
-            NotificationManager.scheduleReminder(for: habit)
+            Task { await notificationService.scheduleReminder(for: habit) }
         }
         
         dismiss()
@@ -175,4 +176,5 @@ struct AddHabitView: View {
 #Preview {
     AddHabitView()
         .modelContainer(SampleData.previewContainer)
+        .environment(NotificationService())
 }

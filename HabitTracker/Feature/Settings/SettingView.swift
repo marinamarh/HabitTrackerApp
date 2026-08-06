@@ -32,6 +32,8 @@ struct SettingView: View {
     @AppStorage("selectedLanguage") private var selectedLanguage: AppLanguage = .english
     
     @Environment(\.requestReview) private var requestReview
+    @Environment(\.scenePhase) private var scenePhase
+    @Environment(NotificationService.self) private var notificationService
     
     private var appVersion: String {
         let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
@@ -62,8 +64,13 @@ struct SettingView: View {
                     Button {
                         openSystemSettings()
                     } label: {
-                        Label("Notifications", systemImage: "bell.badge")
-                            .foregroundStyle(.primary)
+                        HStack {
+                            Label("Notifications", systemImage: "bell.badge")
+                                .foregroundStyle(.primary)
+                            Spacer()
+                            Text(notificationService.permission == .authorized ? "On" : "Off")
+                                .foregroundStyle(.secondary)
+                        }
                     }
                 }
                 
@@ -98,6 +105,13 @@ struct SettingView: View {
                 }
             }
             .navigationTitle("Settings")
+            .task {
+                await notificationService.refreshPermission()
+            }
+            .onChange(of: scenePhase) { _, newPhase in
+                guard newPhase == .active else { return }
+                Task { await notificationService.refreshPermission() }
+            }
         }
     }
     
@@ -109,4 +123,5 @@ struct SettingView: View {
 
 #Preview {
     SettingView()
+        .environment(NotificationService())
 }

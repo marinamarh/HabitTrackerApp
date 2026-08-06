@@ -10,6 +10,7 @@ import SwiftData
 
 struct HabitList: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(NotificationService.self) private var notificationService
     @Query private var habits: [Habit]
     
     @State private var habitToEdit: Habit?
@@ -47,7 +48,7 @@ struct HabitList: View {
                         .listRowInsets(EdgeInsets(top: 6, leading: 24, bottom: 6, trailing: 24))
                         .swipeActions(edge: .trailing) {
                             Button(role: .destructive) {
-                                NotificationManager.cancelReminder(for: habit)
+                                notificationService.cancelReminder(for: habit)
                                 
                                 modelContext.delete(habit)
                             } label: {
@@ -100,4 +101,5 @@ struct HabitList: View {
 #Preview {
     HabitList(selectedDate: Date.now)
         .modelContainer(SampleData.previewContainer)
+        .environment(NotificationService())
 }
