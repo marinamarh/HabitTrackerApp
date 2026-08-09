@@ -13,19 +13,18 @@ struct HabitTrackerWidgetView: View {
     var entry: HabitsProvider.Entry
     
     private var maxVisibleHabits: Int {
-        family == .systemSmall ? 4 : 8
+        family == .systemSmall ? 3 : 6
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 10) {
             Text("Today")
-                .font(.caption)
-                .fontWeight(.semibold)
+                .font(.footnote.weight(.semibold))
                 .foregroundStyle(.secondary)
             
             if entry.habits.isEmpty {
                 Text("No habits scheduled")
-                    .font(.caption)
+                    .font(.subheadline)
                     .foregroundStyle(.secondary)
             } else {
                 ForEach(entry.habits.prefix(maxVisibleHabits)) { habit in
@@ -35,7 +34,7 @@ struct HabitTrackerWidgetView: View {
             
             Spacer(minLength: 0)
         }
-        .padding(12)
+        .padding(16)
         .containerBackground(.background, for: .widget)
         .widgetURL(URL(string: "habittracker://today"))
     }
@@ -45,13 +44,13 @@ private struct HabitWidgetRow: View {
     let habit: HabitWidgetItem
     
     var body: some View {
-        HStack(spacing: 6) {
+        HStack(spacing: 8) {
             Image(systemName: habit.isCompleted ? "checkmark.circle.fill" : "circle")
-                .font(.caption)
+                .font(.subheadline)
                 .foregroundStyle(habit.isCompleted ? habit.color.color : .secondary)
             
             Text(habit.title)
-                .font(.caption)
+                .font(.subheadline)
                 .lineLimit(1)
                 .strikethrough(habit.isCompleted)
                 .foregroundStyle(habit.isCompleted ? .secondary : .primary)
