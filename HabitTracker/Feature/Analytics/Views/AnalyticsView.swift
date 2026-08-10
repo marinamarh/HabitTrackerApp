@@ -48,7 +48,7 @@ struct AnalyticsView: View {
                         
                         Spacer()
                         
-                        Text("Week \(weekPercentage)% · Month \(monthPercentage)%")
+                        Text("Week \(Double(weekPercentage) / 100, format: .percent.precision(.fractionLength(0))) · Month \(Double(monthPercentage) / 100, format: .percent.precision(.fractionLength(0)))")
                             .font(.footnote)
                             .foregroundStyle(.secondary)
                     }

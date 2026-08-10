@@ -26,6 +26,18 @@ enum Weekday: String, Codable, CaseIterable, Identifiable {
     case mon = "Mon", tue = "Tue", wed = "Wed", thu = "Thu", fri = "Fri", sat = "Sat", sun = "Sun"
     
     var id: String { rawValue }
+
+    var displayName: String {
+        switch self {
+        case .mon: String(localized: "Mon", comment: "Abbreviated Monday, shown in the weekday picker")
+        case .tue: String(localized: "Tue", comment: "Abbreviated Tuesday, shown in the weekday picker")
+        case .wed: String(localized: "Wed", comment: "Abbreviated Wednesday, shown in the weekday picker")
+        case .thu: String(localized: "Thu", comment: "Abbreviated Thursday, shown in the weekday picker")
+        case .fri: String(localized: "Fri", comment: "Abbreviated Friday, shown in the weekday picker")
+        case .sat: String(localized: "Sat", comment: "Abbreviated Saturday, shown in the weekday picker")
+        case .sun: String(localized: "Sun", comment: "Abbreviated Sunday, shown in the weekday picker")
+        }
+    }
     
     var calendarWeekday: Int {
         switch self {
