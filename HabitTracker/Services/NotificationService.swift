@@ -33,7 +33,10 @@ class NotificationService {
         
         let content = UNMutableNotificationContent()
         content.title = habit.title
-        content.body = "Time to \(habit.title.lowercased())"
+        content.body = String(
+            localized: "Time to \(habit.title.lowercased())",
+            comment: "Notification reminding the user to do a habit, e.g. 'Time to read'"
+        )
         content.sound = .default
         
         switch habit.frequency {

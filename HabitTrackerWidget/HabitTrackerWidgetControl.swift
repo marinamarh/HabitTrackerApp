@@ -24,7 +24,7 @@ struct HabitTrackerWidgetControl: ControlWidget {
             }
         }
         .displayName("Timer")
-        .description("A an example control that runs a timer.")
+        .description("An example control that runs a timer.")
     }
 }
 
@@ -35,7 +35,7 @@ extension HabitTrackerWidgetControl {
         }
 
         func currentValue() async throws -> Bool {
-            let isRunning = true // Check if the timer is running
+            let isRunning = true
             return isRunning
         }
     }
@@ -48,7 +48,6 @@ struct StartTimerIntent: SetValueIntent {
     var value: Bool
 
     func perform() async throws -> some IntentResult {
-        // Start / stop the timer based on `value`.
         return .result()
     }
 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct WeekdayPicker: View {
     @Binding var selectedDays: Set<Weekday>
-
+    
     var body: some View {
         HStack(spacing: 8) {
             ForEach(Weekday.allCases) { day in
@@ -17,14 +17,14 @@ struct WeekdayPicker: View {
             }
         }
     }
-
+    
     private func dayButton(_ day: Weekday) -> some View {
         let isSelected = selectedDays.contains(day)
         
         return Button {
             toggle(day)
         } label: {
-            Text(day.rawValue)
+            Text(day.displayName)
                 .font(.subheadline.weight(.semibold))
                 .foregroundStyle(isSelected ? .white : .primary)
                 .frame(maxWidth: .infinity)
@@ -34,7 +34,7 @@ struct WeekdayPicker: View {
         }
         .buttonStyle(.plain)
     }
-
+    
     private func toggle(_ day: Weekday) {
         withAnimation(.snappy) {
             if selectedDays.contains(day) {

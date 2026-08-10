@@ -20,16 +20,19 @@ enum AppTheme: String, CaseIterable {
         case .dark: return .dark
         }
     }
+    
+    var displayName: String {
+        switch self {
+        case .system: String(localized: "System", comment: "Appearance option: follow system light/dark setting")
+        case .light: String(localized: "Light", comment: "Appearance option: always light")
+        case .dark: String(localized: "Dark", comment: "Appearance option: always dark")
+        }
+    }
 }
 
-enum AppLanguage: String, CaseIterable {
-    case english = "English"
-    case ukrainian = "Українська"
-}
 
 struct SettingView: View {
     @AppStorage("selectedTheme") private var selectedTheme: AppTheme = .system
-    @AppStorage("selectedLanguage") private var selectedLanguage: AppLanguage = .english
     
     @Environment(\.requestReview) private var requestReview
     @Environment(\.scenePhase) private var scenePhase
@@ -41,24 +44,33 @@ struct SettingView: View {
         return "\(version) (\(build))"
     }
     
+    private var currentLanguageDisplayName: String {
+        guard let code = Locale.current.language.languageCode?.identifier else { return "" }
+        return Locale.current.localizedString(forLanguageCode: code)?.capitalized ?? code
+    }
+    
     var body: some View {
         NavigationStack {
             Form {
                 Section("Preferences") {
                     Picker(selection: $selectedTheme) {
                         ForEach(AppTheme.allCases, id: \.self) { theme in
-                            Text(theme.rawValue).tag(theme)
+                            Text(theme.displayName).tag(theme)
                         }
                     } label: {
                         Label("Appearance", systemImage: "circle.lefthalf.filled")
                     }
                     
-                    Picker(selection: $selectedLanguage) {
-                        ForEach(AppLanguage.allCases, id: \.self) { lang in
-                            Text(lang.rawValue).tag(lang)
-                        }
+                    Button {
+                        openSystemSettings()
                     } label: {
-                        Label("Language", systemImage: "globe")
+                        HStack {
+                            Label("Language", systemImage: "globe")
+                                .foregroundStyle(.primary)
+                            Spacer()
+                            Text(currentLanguageDisplayName)
+                                .foregroundStyle(.secondary)
+                        }
                     }
                     
                     Button {

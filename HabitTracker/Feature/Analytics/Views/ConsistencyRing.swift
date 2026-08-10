@@ -26,7 +26,7 @@ struct ConsistencyRing: View {
                     .rotationEffect(.degrees(-90))
                     .animation(.easeInOut, value: progress)
                 
-                Text("\(percentage)%")
+                Text(Double(percentage) / 100, format: .percent.precision(.fractionLength(0)))
                     .font(.system(.title, design: .serif))
                     .bold()
             }
