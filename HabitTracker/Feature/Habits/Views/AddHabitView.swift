@@ -24,10 +24,13 @@ struct AddHabitView: View {
     @State private var reminderTime = Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: .now) ?? .now
     @State private var showPermissionAlert = false
     
-    init() {
+    var onSave: (() -> Void)? = nil
+    
+    init(onSave: (() -> Void)? = nil) {
         let randomDefaults = Habit.createRandom()
         _symbol = State(initialValue: randomDefaults.symbol)
         _UIcolor = State(initialValue: randomDefaults.color)
+        self.onSave = onSave
     }
     
     var body: some View {
@@ -164,6 +167,7 @@ struct AddHabitView: View {
             Task { await notificationService.scheduleReminder(for: habit) }
         }
         
+        onSave?()
         dismiss()
     }
     

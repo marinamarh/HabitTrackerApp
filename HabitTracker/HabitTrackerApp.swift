@@ -11,7 +11,9 @@ import SwiftData
 @main
 struct HabitTrackerApp: App {
     @AppStorage("selectedTheme") private var selectedTheme: AppTheme = .system
+    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
     @State private var notificationService = NotificationService()
+
     
     init() {
         let appearance = UINavigationBarAppearance()
@@ -41,9 +43,18 @@ struct HabitTrackerApp: App {
     
     var body: some Scene {
         WindowGroup {
-            MainTabView()
-                .preferredColorScheme(selectedTheme.colorScheme)
-                .environment(notificationService)
+            Group {
+                if hasCompletedOnboarding {
+                    MainTabView()
+                        .transition(.opacity.combined(with: .scale(scale: 0.96)))
+                } else {
+                    OnboardingView()
+                        .transition(.opacity)
+                }
+            }
+            .animation(.easeInOut(duration: 0.4), value: hasCompletedOnboarding)
+            .preferredColorScheme(selectedTheme.colorScheme)
+            .environment(notificationService)
         }
         .modelContainer(sharedModelContainer)
     }
