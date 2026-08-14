@@ -58,7 +58,7 @@ struct AnalyticsView: View {
                 .padding()
                 .background {
                     RoundedRectangle(cornerRadius: 16)
-                        .fill(Color(.systemBackground))
+                        .fill(.ultraThinMaterial)
                         .shadow(color: .black.opacity(0.04), radius: 6, y: 2)
                 }
             }

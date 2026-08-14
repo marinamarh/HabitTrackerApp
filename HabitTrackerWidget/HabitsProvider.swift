@@ -62,3 +62,4 @@ nonisolated struct HabitsProvider: TimelineProvider {
         }
     }
 }
+

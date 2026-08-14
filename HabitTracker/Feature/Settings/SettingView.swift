@@ -116,6 +116,7 @@ struct SettingView: View {
                     }
                 }
             }
+            .scrollContentBackground(.hidden)
             .navigationTitle("Settings")
             .task {
                 await notificationService.refreshPermission()
