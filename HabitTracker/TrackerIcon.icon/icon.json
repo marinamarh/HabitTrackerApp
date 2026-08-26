@@ -1,27 +1,57 @@
 {
   "fill" : {
-    "automatic-gradient" : "display-p3:0.98608,0.98691,0.97144,1.00000"
+    "linear-gradient" : [
+      "display-p3:0.64700,0.75241,0.65030,1.00000",
+      "display-p3:0.51373,0.63922,0.51765,1.00000"
+    ],
+    "orientation" : {
+      "start" : {
+        "x" : 0.5,
+        "y" : 0
+      },
+      "stop" : {
+        "x" : 0.5,
+        "y" : 0.7
+      }
+    }
   },
   "groups" : [
     {
       "layers" : [
         {
+          "fill-specializations" : [
+            {
+              "appearance" : "dark",
+              "value" : "none"
+            }
+          ],
           "glass" : true,
-          "image-name" : "1 – Layer.svg",
-          "name" : "1 – Layer"
+          "image-name" : "3 – Layer.svg",
+          "name" : "3 – Layer"
         },
         {
+          "fill-specializations" : [
+            {
+              "appearance" : "dark",
+              "value" : "none"
+            }
+          ],
           "image-name" : "2 – Layer.svg",
           "name" : "2 – Layer"
         },
         {
-          "blend-mode" : "normal",
-          "glass" : true,
+          "fill-specializations" : [
+            {
+              "appearance" : "dark",
+              "value" : "none"
+            }
+          ],
           "hidden" : false,
-          "image-name" : "3 – Layer.svg",
-          "name" : "3 – Layer"
+          "image-name" : "1 – Layer.svg",
+          "name" : "1 – Layer"
         }
       ],
+      "name" : "icon-2",
       "shadow" : {
         "kind" : "neutral",
         "opacity" : 0.5
