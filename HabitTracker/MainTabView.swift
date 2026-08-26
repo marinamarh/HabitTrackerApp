@@ -5,23 +5,31 @@
 //  Created by Marina Marhitych on 04.07.2026.
 //
 
+
 import SwiftUI
 import SwiftData
 
+enum AppTab: Hashable {
+    case habits
+    case analytics
+    case settings
+}
+
 struct MainTabView: View {
     @Environment(\.modelContext) private var modelContext
+    @Binding var selectedTab: AppTab
 
     var body: some View {
-        TabView {
-            Tab("Habits", systemImage: "checklist") {
+        TabView(selection: $selectedTab) {
+            Tab("Habits", systemImage: "checklist", value: .habits) {
                 HabitScreen()
             }
             
-            Tab("Analytics", systemImage: "chart.bar.xaxis") {
+            Tab("Analytics", systemImage: "chart.bar.xaxis", value: .analytics) {
                 AnalyticsScreen()
             }
             
-            Tab("Settings", systemImage: "gearshape.fill") {
+            Tab("Settings", systemImage: "gearshape.fill", value: .settings) {
                 SettingView()
             }
         }
@@ -30,6 +38,6 @@ struct MainTabView: View {
 }
 
 #Preview {
-    MainTabView()
+    MainTabView(selectedTab: .constant(.habits))
         .modelContainer(for: [Habit.self, HabitEntry.self], inMemory: true)
 }
