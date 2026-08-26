@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import WidgetKit
 
 struct AddHabitView: View {
     
@@ -162,6 +163,8 @@ struct AddHabitView: View {
             reminderTime: isReminderEnabled ? reminderTime : nil
         )
         modelContext.insert(habit)
+        try? modelContext.save()
+        WidgetCenter.shared.reloadTimelines(ofKind: AppGroup.widgetKind)
         
         if isReminderEnabled {
             Task { await notificationService.scheduleReminder(for: habit) }

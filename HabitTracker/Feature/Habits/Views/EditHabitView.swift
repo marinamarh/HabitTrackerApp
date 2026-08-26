@@ -7,11 +7,13 @@
 
 import SwiftUI
 import SwiftData
+import WidgetKit
 
 struct EditHabitView: View {
     
     let habit: Habit
     
+    @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     @Environment(NotificationService.self) private var notificationService
     
@@ -168,6 +170,8 @@ struct EditHabitView: View {
         habit.color = UIcolor
         habit.frequency = isEveryday ? .daily : .specificDays(Array(selectedDays))
         habit.reminderTime = isReminderEnabled ? reminderTime : nil
+        try? modelContext.save()
+        WidgetCenter.shared.reloadTimelines(ofKind: AppGroup.widgetKind)
         
         if isReminderEnabled {
             Task { await notificationService.scheduleReminder(for: habit) }
