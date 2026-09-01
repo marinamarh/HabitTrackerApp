@@ -1,5 +1,5 @@
 //
-//  NotificationManager.swift
+//  NotificationService.swift
 //  HabitTracker
 //
 //  Created by Marina Marhitych on 05.08.2026.
@@ -8,7 +8,7 @@
 import UserNotifications
 
 @Observable
-class NotificationService {
+final class NotificationService {
     
     private(set) var permission: NotificationPermission = .notDetermined
     

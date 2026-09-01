@@ -12,7 +12,7 @@ struct AnalyticsScreen: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                AnalyticsView()
+                AnalyticsDashboardView()
                     .padding()
             }
             .navigationBarHidden(true)

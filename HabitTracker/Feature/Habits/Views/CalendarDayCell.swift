@@ -24,12 +24,12 @@ struct CalendarDayCell: View {
                 .font(.title3)
                 .fontWeight(isSelected ? .semibold : .medium)
                 .foregroundStyle(
-                    isSelected ? .white : (day.notFromThisMonth ? Color.gray.opacity(0.5) : Color.primary)
+                    isSelected ? .sageGreen : (day.notFromThisMonth ? Color.gray.opacity(0.5) : Color.primary)
                 )
                 .frame(width: 44, height: 44)
                 .background {
                     if isSelected {
-                        RoundedRectangle(cornerRadius: 14, style: .continuous).fill(.black)
+                        RoundedRectangle(cornerRadius: 14, style: .continuous).fill(.selection)
                     }
                 }
         }

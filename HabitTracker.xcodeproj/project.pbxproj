@@ -73,12 +73,20 @@
 			);
 			target = 83360ECE3025123800002BEC /* HabitTrackerWidgetExtension */;
 		};
+		83E1394D303F29D600ED2EF3 /* Exceptions for "HabitTracker" folder in "HabitTracker" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 83119C052FF94E48000FEF60 /* HabitTracker */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		83119C082FF94E48000FEF60 /* HabitTracker */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
+				83E1394D303F29D600ED2EF3 /* Exceptions for "HabitTracker" folder in "HabitTracker" target */,
 				83361AB830261CF500002BEC /* Exceptions for "HabitTracker" folder in "HabitTrackerWidgetExtension" target */,
 			);
 			path = HabitTracker;
@@ -470,6 +478,7 @@
 				DEVELOPMENT_TEAM = 9PHZ5ZHFC2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HabitTracker/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -505,6 +514,7 @@
 				DEVELOPMENT_TEAM = 9PHZ5ZHFC2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HabitTracker/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

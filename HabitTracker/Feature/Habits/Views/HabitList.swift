@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import WidgetKit
 
 struct HabitList: View {
     @Environment(\.modelContext) private var modelContext
@@ -51,9 +52,11 @@ struct HabitList: View {
                                 notificationService.cancelReminder(for: habit)
                                 
                                 modelContext.delete(habit)
+                                saveAndReloadWidget()
                             } label: {
                                 Label("Delete", systemImage: "trash")
                             }
+                            .tint(.red)
                         }
                         .swipeActions(edge: .leading) {
                             Button {
@@ -88,13 +91,20 @@ struct HabitList: View {
         habit.lastCompletedDate = .now
         let entry = HabitEntry(date: selectedDate, habit: habit)
         modelContext.insert(entry)
+        saveAndReloadWidget()
     }
     
     private func uncomplete(_ habit: Habit) {
         let targetDate = Calendar.current.startOfDay(for: selectedDate)
         if let entry = habit.entries.first(where: { Calendar.current.isDate($0.date, inSameDayAs: targetDate) }) {
             modelContext.delete(entry)
+            saveAndReloadWidget()
         }
+    }
+    
+    private func saveAndReloadWidget() {
+        try? modelContext.save()
+        WidgetCenter.shared.reloadTimelines(ofKind: AppGroup.widgetKind)
     }
 }
 

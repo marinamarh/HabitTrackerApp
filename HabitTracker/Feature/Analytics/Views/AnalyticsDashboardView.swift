@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-struct AnalyticsView: View {
+struct AnalyticsDashboardView: View {
     @Query private var entries: [HabitEntry]
     @Query private var habits: [Habit]
     
@@ -75,6 +75,6 @@ struct AnalyticsView: View {
 }
 
 #Preview {
-    AnalyticsView()
+    AnalyticsDashboardView()
         .modelContainer(SampleData.previewContainer)
 }

@@ -13,7 +13,8 @@ struct HabitTrackerApp: App {
     @AppStorage("selectedTheme") private var selectedTheme: AppTheme = .system
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
     @State private var notificationService = NotificationService()
-
+    @State private var selectedTab: AppTab = .habits
+    
     
     init() {
         let appearance = UINavigationBarAppearance()
@@ -45,7 +46,7 @@ struct HabitTrackerApp: App {
         WindowGroup {
             Group {
                 if hasCompletedOnboarding {
-                    MainTabView()
+                    MainTabView(selectedTab: $selectedTab)
                         .transition(.opacity.combined(with: .scale(scale: 0.96)))
                 } else {
                     OnboardingView()
@@ -55,7 +56,21 @@ struct HabitTrackerApp: App {
             .animation(.easeInOut(duration: 0.4), value: hasCompletedOnboarding)
             .preferredColorScheme(selectedTheme.colorScheme)
             .environment(notificationService)
+            .onOpenURL { url in
+                handleDeepLink(url)
+            }
         }
         .modelContainer(sharedModelContainer)
+    }
+    
+    private func handleDeepLink(_ url: URL) {
+        guard url.scheme == "habittracker" else { return }
+        
+        switch url.host {
+        case "today":
+            selectedTab = .habits
+        default:
+            break
+        }
     }
 }
