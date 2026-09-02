@@ -4,7 +4,7 @@ A native iOS habit tracker built with SwiftUI and SwiftData — track daily habi
 
 > Portfolio project built solo to practice modern SwiftUI/SwiftData patterns for a Junior iOS Developer role.
 
-//
+![image alt](https://github.com/marinamarh/HabitTrackerApp/blob/main/appPreview.png?raw=true)
 
 ## Features
 
