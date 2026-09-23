@@ -12,21 +12,29 @@ import SwiftUI
 @Model
 final class Habit {
     @Attribute(.unique) var id: UUID
-
+    
     var title: String
     var symbol: HabitSymbol
     var color: HabitColor
-
+    
     private var frequencyIsDaily: Bool
     private var specificWeekdaysRaw: [String]
     
     var lastCompletedDate: Date?
     var createdAt: Date = Date.now
     var reminderTime: Date?
-
+    
     @Relationship(deleteRule: .cascade, inverse: \HabitEntry.habit)
     var entries: [HabitEntry] = []
-
+    
+    var isCompletedToday: Bool {
+        isCompleted(on: .now)
+    }
+    
+    var uiColor: Color {
+        color.color
+    }
+    
     var frequency: HabitFrequency {
         get {
             frequencyIsDaily ? .daily : .specificDays(specificWeekdaysRaw.compactMap(Weekday.init(rawValue:)))
@@ -42,7 +50,7 @@ final class Habit {
             }
         }
     }
-
+    
     init(title: String, symbol: HabitSymbol = .book, color: HabitColor = .green, frequency: HabitFrequency = .daily, reminderTime: Date? = nil) {
         self.id = UUID()
         self.title = title
@@ -51,7 +59,7 @@ final class Habit {
         self.lastCompletedDate = nil
         self.createdAt = .now
         self.reminderTime = reminderTime
-
+        
         switch frequency {
         case .daily:
             self.frequencyIsDaily = true
@@ -61,12 +69,6 @@ final class Habit {
             self.specificWeekdaysRaw = days.map(\.rawValue)
         }
     }
-}
-
-extension Habit {
-    var isCompletedToday: Bool {
-        isCompleted(on: .now)
-    }
     
     func isScheduled(on date: Date) -> Bool {
         frequency.includes(Weekday(date: date))
@@ -75,11 +77,5 @@ extension Habit {
     func isCompleted(on date: Date, calendar: Calendar = .current) -> Bool {
         let targetDate = calendar.startOfDay(for: date)
         return entries.contains { calendar.isDate($0.date, inSameDayAs: targetDate) }
-    }
-}
-
-extension Habit {
-    var uiColor: Color {
-        color.color
     }
 }

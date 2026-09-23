@@ -44,7 +44,7 @@ struct HabitTrackerApp: App {
     
     var body: some Scene {
         WindowGroup {
-            Group {
+            ZStack {
                 if hasCompletedOnboarding {
                     MainTabView(selectedTab: $selectedTab)
                         .transition(.opacity.combined(with: .scale(scale: 0.96)))
