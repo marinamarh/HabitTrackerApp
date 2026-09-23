@@ -32,20 +32,7 @@ struct HabitFormView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section {
-                    HStack {
-                        Spacer()
-                        Image(systemName: symbol.systemName)
-                            .font(.system(size: 48, weight: .semibold))
-                            .foregroundStyle(.white)
-                            .frame(width: 100, height: 100)
-                            .background(color.color)
-                            .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
-                        Spacer()
-                    }
-                    .listRowBackground(Color.clear)
-                    .padding(.vertical, 8)
-                }
+                previewSection
                 
                 Section("Name") {
                     TextField("Habit Name", text: $title)
@@ -81,51 +68,9 @@ struct HabitFormView: View {
                     }
                 }
                 
-                Section("Color") {
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 16) {
-                            ForEach(HabitColor.allCases, id: \.self) { habitColor in
-                                Button {
-                                    withAnimation { color = habitColor }
-                                } label: {
-                                    Circle()
-                                        .fill(habitColor.color.gradient)
-                                        .frame(width: 44, height: 44)
-                                        .overlay {
-                                            if color == habitColor {
-                                                Circle()
-                                                    .stroke(Color.gray.opacity(0.5), lineWidth: 3)
-                                                    .padding(-4)
-                                            }
-                                        }
-                                }
-                                .buttonStyle(.plain)
-                            }
-                        }
-                        .padding([.vertical, .horizontal], 8)
-                    }
-                }
+                colorSection
                 
-                Section("Icon") {
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 16) {
-                            ForEach(HabitSymbol.allCases, id: \.self) { habitSymbol in
-                                Button {
-                                    withAnimation { symbol = habitSymbol }
-                                } label: {
-                                    Image(systemName: habitSymbol.systemName)
-                                        .font(.title2)
-                                        .foregroundStyle(symbol == habitSymbol ? .white : .primary)
-                                        .frame(width: 44, height: 44)
-                                        .background(symbol == habitSymbol ? color.color : Color(UIColor.tertiarySystemFill))
-                                        .clipShape(Circle())
-                                }
-                                .buttonStyle(.plain)
-                            }
-                        }
-                        .padding([.vertical, .horizontal], 8)
-                    }
-                }
+                iconSection
             }
             .navigationTitle(navigationTitle)
             .navigationBarTitleDisplayMode(.inline)
@@ -144,6 +89,76 @@ struct HabitFormView: View {
             } message: {
                 Text("Enable notifications in system Settings to get reminders for this habit.")
             }
+        }
+    }
+    
+    private var previewSection: some View {
+        Section {
+            HStack {
+                Spacer()
+                Image(systemName: symbol.systemName)
+                    .font(.system(size: 48, weight: .semibold))
+                    .foregroundStyle(.white)
+                    .frame(width: 100, height: 100)
+                    .background(color.color)
+                    .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+                Spacer()
+            }
+            .listRowBackground(Color.clear)
+            .padding(.vertical, 8)
+        }
+    }
+    
+    private var colorSection: some View {
+        Section("Color") {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 16) {
+                    ForEach(HabitColor.allCases, id: \.self) { habitColor in
+                        Button {
+                            withAnimation { color = habitColor }
+                        } label: {
+                            Circle()
+                                .fill(habitColor.color.gradient)
+                                .frame(width: 44, height: 44)
+                                .overlay {
+                                    if color == habitColor {
+                                        Circle()
+                                            .stroke(Color.gray.opacity(0.5), lineWidth: 3)
+                                            .padding(-4)
+                                    }
+                                }
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+                .padding([.vertical, .horizontal], 8)
+            }
+            .scrollClipDisabled()
+        }
+    }
+    
+    private let columns = [
+        GridItem(.adaptive(minimum: 44), spacing: 12)
+    ]
+    
+    private var iconSection: some View {
+        Section("Icon") {
+            LazyVGrid(columns: columns, spacing: 12) {
+                ForEach(HabitSymbol.allCases, id: \.self) { habitSymbol in
+                    Button {
+                        withAnimation { symbol = habitSymbol }
+                    } label: {
+                        Image(systemName: habitSymbol.systemName)
+                            .font(.title2)
+                            .foregroundStyle(symbol == habitSymbol ? .white : .primary)
+                            .frame(width: 44, height: 44)
+                            .background(symbol == habitSymbol ? color.color : Color(UIColor.tertiarySystemFill))
+                            .clipShape(Circle())
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+            .padding(.vertical, 8)
         }
     }
     
