@@ -60,6 +60,9 @@ struct CalendarView<Content: View>: View {
         .onChange(of: weekIndex) { _, newValue in
             updateSelectedDate(forWeekIndex: newValue)
         }
+        .onChange(of: date) { _, newDate in
+            recenterIfNeeded(around: newDate)
+        }
     }
 
     @ViewBuilder
@@ -142,5 +145,19 @@ struct CalendarView<Content: View>: View {
         guard updatesDateOnScroll, weeks.indices.contains(newIndex) else { return }
         let symbolIndex = calendar.component(.weekday, from: date) - 1
         date = weeks[newIndex].days[symbolIndex].date
+    }
+    
+    private func recenterIfNeeded(around targetDate: Date) {
+        let isAlreadyLoaded = weeks.contains { week in
+            week.days.contains { calendar.isDate($0.date, inSameDayAs: targetDate) }
+        }
+        guard !isAlreadyLoaded else { return }
+        
+        weeks = (-1...1).map { Week.load(from: targetDate, value: $0) }
+        weekIndex = 1
+        
+        withAnimation(.snappy) {
+            scrollPosition.scrollTo(id: weeks[1].id)
+        }
     }
 }

@@ -40,10 +40,24 @@ struct HabitScreen: View {
                 .padding(.horizontal, 24)
                 .padding(.top, 16)
                 
-                VStack(spacing: 24) {
-                    Text(selectedDate.formatted(.dateTime.month(.wide).year()))
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                VStack(alignment: .leading ,spacing: 24) {
+                    HStack {
+                        Text(selectedDate.formatted(.dateTime.month(.wide).year()))
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                        
+                        Spacer()
+                        
+                        if !calendar.isDateInToday(selectedDate) {
+                            Button("Today") {
+                                withAnimation(.snappy) {
+                                    selectedDate = .now
+                                }
+                            }
+                            .tint(Color.sageGreen)
+                        }
+                    }
+                    .padding(.horizontal, 24)
                     
                     CalendarView(updatesDateOnScroll: true, date: $selectedDate) { day in
                         CalendarDayCell(
