@@ -11,6 +11,7 @@ import SwiftData
 struct HabitScreen: View {
     @State private var selectedDate = Date()
     @State private var isPresented: Bool = false
+    @State private var visibleMonth = Date()
     private let calendar = Calendar.current
     
     var body: some View {
@@ -18,10 +19,6 @@ struct HabitScreen: View {
             VStack(alignment: .leading, spacing: 24) {
                 HStack(alignment: .top) {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text(selectedDate.formatted(.dateTime.weekday(.wide).month(.abbreviated).day()))
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                        
                         Text("Today's rhythm")
                             .font(.system(size: 34, weight: .regular, design: .serif))
                             .foregroundStyle(.primary)
@@ -44,7 +41,11 @@ struct HabitScreen: View {
                 .padding(.top, 16)
                 
                 VStack(spacing: 24) {
-                    CalendarView(updatesDateOnScroll: false, date: $selectedDate) { day in
+                    Text(selectedDate.formatted(.dateTime.month(.wide).year()))
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                    
+                    CalendarView(updatesDateOnScroll: true, date: $selectedDate) { day in
                         CalendarDayCell(
                             day: day,
                             isSelected: calendar.isDate(selectedDate, inSameDayAs: day.date),
@@ -71,4 +72,5 @@ struct HabitScreen: View {
 #Preview {
     HabitScreen()
         .modelContainer(SampleData.previewContainer)
+        .environment(NotificationService())
 }
