@@ -69,7 +69,7 @@ private struct DayCell: View {
         .frame(maxWidth: .infinity)
         .foregroundStyle(isSelected ? Color.white : Color.primary)
         .background(
-            isSelected ? Color.accentColor : Color(uiColor: .secondarySystemFill),
+            isSelected ? Color.accent : Color(uiColor: .secondarySystemFill),
             in: .rect(cornerRadius: 12)
         )
     }

@@ -18,11 +18,11 @@ struct ConsistencyRing: View {
         VStack(spacing: 12) {
             ZStack {
                 Circle()
-                    .stroke(Color.sageGreen.opacity(0.2), lineWidth: 14)
+                    .stroke(Color.accent.opacity(0.2), lineWidth: 14)
                 
                 Circle()
                     .trim(from: 0, to: progress)
-                    .stroke(Color.sageGreen, style: StrokeStyle(lineWidth: 14, lineCap: .round))
+                    .stroke(Color.accent, style: StrokeStyle(lineWidth: 14, lineCap: .round))
                     .rotationEffect(.degrees(-90))
                     .animation(.easeInOut, value: progress)
                 

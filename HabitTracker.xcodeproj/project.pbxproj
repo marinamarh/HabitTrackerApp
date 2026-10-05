@@ -50,7 +50,6 @@
 		83360ECF3025123800002BEC /* HabitTrackerWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = HabitTrackerWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		83360ED13025123800002BEC /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		83360ED33025123900002BEC /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		83360EE8302512D100002BEC /* HabitTrackerWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HabitTrackerWidgetExtension.entitlements; sourceTree = "<group>"; };
 		8373E1DA301744D500EC5D90 /* HabitTrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HabitTrackerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -72,7 +71,6 @@
 				Models/HabitSymbol.swift,
 				Models/SharedModelContainer.swift,
 				Models/Weekday.swift,
-				Resources/AppColor.swift,
 			);
 			target = 83360ECE3025123800002BEC /* HabitTrackerWidgetExtension */;
 		};
@@ -140,7 +138,6 @@
 		83119BFD2FF94E48000FEF60 = {
 			isa = PBXGroup;
 			children = (
-				83360EE8302512D100002BEC /* HabitTrackerWidgetExtension.entitlements */,
 				83119C182FF95140000FEF60 /* .gitignore */,
 				83119C082FF94E48000FEF60 /* HabitTracker */,
 				8373E1DB301744D500EC5D90 /* HabitTrackerTests */,
@@ -546,7 +543,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = HabitTrackerWidgetExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = /Users/marinamarhitych/Downloads/Portfolio/HabitTracker/HabitTracker/Resources/HabitTrackerWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9PHZ5ZHFC2;
@@ -578,7 +575,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = HabitTrackerWidgetExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = /Users/marinamarhitych/Downloads/Portfolio/HabitTracker/HabitTracker/Resources/HabitTrackerWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9PHZ5ZHFC2;

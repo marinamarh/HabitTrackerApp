@@ -15,7 +15,7 @@ struct OnboardingProgressBar: View {
         HStack(spacing: 6) {
             ForEach(0..<totalPages, id: \.self) { index in
                 Capsule()
-                    .fill(index <= currentPage ? Color.sageGreen : Color(.systemGray5))
+                    .fill(index <= currentPage ? Color.accent : Color(.systemGray5))
                     .frame(height: 4)
             }
         }

@@ -29,7 +29,7 @@ struct WeekdayPicker: View {
                 .foregroundStyle(isSelected ? .white : .primary)
                 .frame(maxWidth: .infinity)
                 .frame(height: 44)
-                .background(isSelected ? Color.sageGreen : Color(uiColor: .systemBackground))
+                .background(isSelected ? Color.accent : Color(uiColor: .systemBackground))
                 .clipShape(Capsule())
         }
         .buttonStyle(.plain)

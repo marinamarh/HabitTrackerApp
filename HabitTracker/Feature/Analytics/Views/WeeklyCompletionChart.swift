@@ -40,7 +40,7 @@ struct WeeklyCompletionChart: View {
                         .foregroundStyle(.white)
                         .padding(12)
                         .frame(width: 100)
-                        .background(RoundedRectangle(cornerRadius: 10).fill(Color.sageGreen.gradient))
+                        .background(RoundedRectangle(cornerRadius: 10).fill(Color.accent.gradient))
                     }
             }
             
@@ -49,13 +49,13 @@ struct WeeklyCompletionChart: View {
                     x: .value("Day", entry.date, unit: .day),
                     y: .value("Completed", entry.completedCount)
                 )
-                .foregroundStyle(Color.sageGreen)
+                .foregroundStyle(Color.accent)
                 .cornerRadius(4)
                 .opacity(rawSelectedDate == nil || entry.date == selectedDay?.date ? 1 : 0.3)
             }
         }
         .frame(height: 160)
-        .chartXSelection(value: $rawSelectedDate.animation(.easeInOut))
+        .chartXSelection(value: $rawSelectedDate)
         .chartXAxis {
             AxisMarks(values: .stride(by: .day)) { value in
                 AxisValueLabel(format: .dateTime.weekday(.narrow))
@@ -63,6 +63,8 @@ struct WeeklyCompletionChart: View {
         }
         .chartYAxis(.hidden)
         .chartYScale(domain: 0...(maxCompletedCount + 3))
+        .animation(.easeInOut, value: rawSelectedDate)
+        
     }
 }
 

@@ -41,7 +41,7 @@ struct HabitFormView: View {
                 
                 Section("Frequency") {
                     Toggle("Everyday", isOn: $isEveryday.animation())
-                        .tint(Color.sageGreen)
+                        .tint(Color.accent)
                     
                     if !isEveryday {
                         WeekdayPicker(selectedDays: $selectedDays)
@@ -51,7 +51,7 @@ struct HabitFormView: View {
                 
                 Section("Reminder") {
                     Toggle("Remind Me", isOn: $isReminderEnabled.animation())
-                        .tint(Color.sageGreen)
+                        .tint(Color.accent)
                     
                     if isReminderEnabled {
                         DatePicker("Time", selection: $reminderTime, displayedComponents: .hourAndMinute)
