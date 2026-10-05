@@ -17,6 +17,7 @@ struct HabitTrackerApp: App {
     
     
     init() {
+        _ = FirstLaunch.date
         let appearance = UINavigationBarAppearance()
         let largeTitleFont = UIFont.systemFont(ofSize: 34, weight: .regular)
         if let serifDescriptor = largeTitleFont.fontDescriptor.withDesign(.serif) {
