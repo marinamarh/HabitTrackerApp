@@ -9,76 +9,81 @@ import SwiftUI
 import SwiftData
 
 struct HabitScreen: View {
-    @State private var selectedDate = Date()
-    @State private var isPresented: Bool = false
-    @State private var visibleMonth = Date()
-    private let calendar = Calendar.current
+    @State private var selectedDate = Calendar.current.startOfDay(for: .now)
+    @State private var pageID: Date? = MonthWeeks.pageID(containing: .now)
+    @State private var isAddHabitPresented = false
+    
+    private var pages: [WeekPage] { MonthWeeks.pages(firstLaunch: FirstLaunch.date) }
+    private var today: Date { Calendar.current.startOfDay(for: .now) }
+    private var todayPageID: Date { MonthWeeks.pageID(containing: today) }
+    
+    private var isShowingToday: Bool {
+        Calendar.current.isDateInToday(selectedDate) && pageID == todayPageID
+    }
     
     var body: some View {
         NavigationStack {
-            VStack(alignment: .leading, spacing: 24) {
-                HStack(alignment: .top) {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Today's rhythm")
-                            .font(.system(size: 34, weight: .regular, design: .serif))
-                            .foregroundStyle(.primary)
-                    }
-                    
-                    Spacer()
-                    
-                    Button {
-                        isPresented = true
-                    } label: {
-                        Image(systemName: "plus")
-                            .font(.title3.weight(.medium))
-                            .foregroundStyle(Color(uiColor: .systemBackground))
-                            .frame(width: 48, height: 48)
-                            .background(Color.primary)
-                            .clipShape(Circle())
-                    }
-                }
-                .padding(.horizontal, 24)
-                .padding(.top, 16)
-                
-                VStack(alignment: .leading ,spacing: 24) {
-                    HStack {
-                        Text(selectedDate.formatted(.dateTime.month(.wide).year()))
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                        
-                        Spacer()
-                        
-                        if !calendar.isDateInToday(selectedDate) {
-                            Button("Today") {
-                                withAnimation(.snappy) {
-                                    selectedDate = .now
-                                }
-                            }
-                            .tint(Color.sageGreen)
-                        }
-                    }
-                    .padding(.horizontal, 24)
-                    
-                    CalendarView(updatesDateOnScroll: true, date: $selectedDate) { day in
-                        CalendarDayCell(
-                            day: day,
-                            isSelected: calendar.isDate(selectedDate, inSameDayAs: day.date),
-                            isToday: calendar.isDateInToday(day.date),
-                            onTap: {
-                                withAnimation(.snappy) {
-                                    selectedDate = day.date
-                                }
-                            }
-                        )
-                    }
-                    .padding(.horizontal, 16)
-                    
-                    HabitList(selectedDate: selectedDate)
-                }
+            List {
+                calendarSection
+                HabitList(selectedDate: selectedDate)
+            }
+            .listStyle(.plain)
+            .scrollContentBackground(.hidden)
+            .navigationTitle("Today's rhythm")
+            .navigationBarTitleDisplayMode(.large)
+            .safeAreaInset(edge: .bottom, alignment: .trailing) {
+                addButton
             }
         }
-        .sheet(isPresented: $isPresented) {
+        .sheet(isPresented: $isAddHabitPresented) {
             AddHabitView()
+        }
+    }
+    
+    private var calendarSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            calendarHeader
+            CalendarView(pages: pages, selectedDate: $selectedDate, pageID: $pageID)
+        }
+        .listRowBackground(Color.clear)
+        .listRowSeparator(.hidden)
+    }
+    
+    private var calendarHeader: some View {
+        HStack {
+            Text(selectedDate, format: .dateTime.month(.wide).year())
+                .foregroundStyle(.secondary)
+            
+            Spacer()
+            
+            Button("Today", action: showToday)
+                .buttonStyle(.borderless)
+                .disabled(isShowingToday)
+        }
+        .font(.subheadline)
+    }
+    
+    private var addButton: some View {
+        Button {
+            isAddHabitPresented = true
+        } label: {
+            Label("Add habit", systemImage: "plus")
+                .labelStyle(.iconOnly)
+                .font(.title3.weight(.medium))
+                .foregroundStyle(Color(uiColor: .systemBackground))
+                .frame(maxWidth: 56, maxHeight: 56)
+                .background(Color.primary)
+                .clipShape(Circle())
+                .shadow(color: .black.opacity(0.15), radius: 6, x: 0, y: 3)
+        }
+        .padding(.trailing, 20)
+        .padding(.bottom, 16)
+    }
+    
+    private func showToday() {
+        withAnimation {
+            selectedDate = today
+            pageID = todayPageID
         }
     }
 }

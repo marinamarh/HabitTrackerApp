@@ -40,4 +40,5 @@ struct MainTabView: View {
 #Preview {
     MainTabView(selectedTab: .constant(.habits))
         .modelContainer(for: [Habit.self, HabitEntry.self], inMemory: true)
+        .environment(NotificationService())
 }
