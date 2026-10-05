@@ -23,14 +23,17 @@ struct HabitList: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            
+        Group {
             if !scheduledHabits.isEmpty {
                 let completedCount = scheduledHabits.filter { $0.isCompleted(on: selectedDate) }.count
                 let totalCount = scheduledHabits.count
                 
                 DailyProgressBar(completedCount: completedCount, totalCount: totalCount)
                     .padding(.horizontal, 24)
+                    .padding(.bottom, 12)
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
+                    .listRowInsets(EdgeInsets())
             }
             
             if scheduledHabits.isEmpty {
@@ -38,38 +41,35 @@ struct HabitList: View {
                     "No habits for this day",
                     systemImage: "checklist"
                 )
+                .listRowBackground(Color.clear)
+                .listRowSeparator(.hidden)
             } else {
-                List {
-                    ForEach(scheduledHabits) { habit in
-                        HabitRow(habit: habit, selectedDate: selectedDate) {
-                            toggleCompletion(for: habit)
+                ForEach(scheduledHabits) { habit in
+                    HabitRow(habit: habit, selectedDate: selectedDate) {
+                        toggleCompletion(for: habit)
+                    }
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
+                    .listRowInsets(EdgeInsets(top: 6, leading: 24, bottom: 6, trailing: 24))
+                    .swipeActions(edge: .trailing) {
+                        Button(role: .destructive) {
+                            notificationService.cancelReminder(for: habit)
+                            modelContext.delete(habit)
+                            saveAndReloadWidget()
+                        } label: {
+                            Label("Delete", systemImage: "trash")
                         }
-                        .listRowBackground(Color.clear)
-                        .listRowSeparator(.hidden)
-                        .listRowInsets(EdgeInsets(top: 6, leading: 24, bottom: 6, trailing: 24))
-                        .swipeActions(edge: .trailing) {
-                            Button(role: .destructive) {
-                                notificationService.cancelReminder(for: habit)
-                                
-                                modelContext.delete(habit)
-                                saveAndReloadWidget()
-                            } label: {
-                                Label("Delete", systemImage: "trash")
-                            }
-                            .tint(.red)
+                        .tint(.red)
+                    }
+                    .swipeActions(edge: .leading) {
+                        Button {
+                            habitToEdit = habit
+                        } label: {
+                            Label("Edit", systemImage: "pencil")
                         }
-                        .swipeActions(edge: .leading) {
-                            Button {
-                                habitToEdit = habit
-                            } label: {
-                                Label("Edit", systemImage: "pencil")
-                            }
-                            .tint(.orange)
-                        }
+                        .tint(.orange)
                     }
                 }
-                .listStyle(.plain)
-                .scrollContentBackground(.hidden)
             }
         }
         .sheet(item: $habitToEdit) { habit in
